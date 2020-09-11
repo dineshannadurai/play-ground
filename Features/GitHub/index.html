@@ -8,7 +8,7 @@
         <script type="module">
             import { Octokit } from "https://cdn.skypack.dev/@octokit/core";
             const octokit = new Octokit({
-                auth: `3c2c281de0e6785bc848c6041991db5034be8543`,
+                auth: `personal-access-token`,
             });
             async function* fetchCommits(branchList) {
                 for (let x = 0; x < branchList.length; x++) {
