@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/dineshannadurai/play-ground/issues"
   },
-  "homepage": "https://github.com/dineshannadurai/play-ground#readme"
+  "homepage": "https://github.com/dineshannadurai/play-ground#readme",
+  "dependencies": {
+    "paper": "^0.12.11"
+  }
 }
