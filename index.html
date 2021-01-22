@@ -13,10 +13,64 @@
     </script>
     <script type="module">
         import paper from "paper";
-        console.log('paper',paper)
+        
+        // Get a reference to the canvas object
+        var canvas = document.getElementById("canvas");
+        // Create an empty project and a view for the canvas:
+        paper.setup(canvas);
+        // Create a Paper.js Path to draw a line into it:
+        // Adapted from the following Processing example:
+        // http://processing.org/learning/topics/follow3.html
+
+        // The amount of points in the path:
+        var points = 25;
+
+        // The distance between the points:
+        var length = 50;
+
+        var path = new paper.Path({
+            strokeColor: "#E4141B",
+            strokeWidth: 10,
+            strokeCap: "round",
+        });
+
+        var start = new paper.Point(
+            paper.view.center.x / 10,
+            paper.view.center.y
+        );
+        for (var i = 0; i < points; i++)
+            path.add(new paper.Point(start.x + i * length, start.y + 0));
+
+        canvas.addEventListener("mousemove", function onMouseMove(event) {
+            path.firstSegment.point = new paper.Point(event.x, event.y);
+            for (var i = 0; i < points - 1; i++) {
+                var segment = path.segments[i];
+                var nextSegment = segment.next;
+                var vector = new paper.Point(
+                    segment.point.x - nextSegment.point.x,
+                    segment.point.y - nextSegment.point.y
+                );
+                vector.length = length;
+                nextSegment.point = new paper.Point(
+                    segment.point.x - vector.x,
+                    segment.point.y - vector.y
+                );
+            }
+            path.smooth({ type: "continuous" });
+        });
+
+        canvas.addEventListener("mousedown", function onMouseDown(event) {
+            path.fullySelected = true;
+            path.strokeColor = "#e08285";
+        });
+
+        canvas.addEventListener("mouseup", function onMouseUp(event) {
+            path.fullySelected = false;
+            path.strokeColor = "#e4141b";
+        });
     </script>
 </head>
 <body>
-    
+    <canvas style="width: 100%; height: 100%" id="canvas" resize></canvas>
 </body>
 </html>
