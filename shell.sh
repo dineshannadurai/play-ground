@@ -2,7 +2,7 @@
 
 set -e
 
-CHANGED_FILES=$(git diff --name-only --diff-filter=ACMRTUXB origin/main | grep  -E '(.js$|.ts$|.tsx$)')
+CHANGED_FILES=$(git diff --name-only --diff-filter=ACMRTUXB origin/main origin/action_test | grep  -E '(.js$|.ts$|.tsx$)')
 
 if [[ -z ${CHANGED_FILES} ]]; then
   echo "::set-output name=files_changed::false"
