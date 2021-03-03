@@ -22,17 +22,26 @@ jobs:
           echo Source branch ${{ github.head_ref }}
       
       - name: list files
+        id: changed_files
         run: |
           URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${{ github.event.pull_request.number }}/files"
           FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename')
-          echo $FILES
+          SCRIPT_FILES = $FILES | grep  -E "(.js$|.ts$|.tsx$)"
+          if [[ -z ${SCRIPT_FILES} ]]; then
+            echo $FILES
+            echo "::set-output name=files_changed::true"
+            echo "::set-output name=file_names::${SCRIPT_FILES}"
+          else
+            echo "no script file changed!!"
+            echo "::set-output name=files_changed::false"
+          fi
 
       # - name: Find changed files.
       #   id: changed_files
       #   run: |
       #     npm run sample1
 
-      # - name: Perform action if files changed.
-      #   if: steps.changed_files.outputs.files_changed == 'true'
-      #   run: |
-      #     echo "changed files ${{steps.changed_files.outputs.file_names}}"
+      - name: Perform action if files changed.
+        if: steps.changed_files.outputs.files_changed == 'true'
+        run: |
+          echo "changed files ${{steps.changed_files.outputs.file_names}}"
