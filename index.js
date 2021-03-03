@@ -1,2 +1,1 @@
-console.log("dinesh");
-const variableOne = 'string'; 
+console.log("dinesh"); 
