@@ -15,6 +15,9 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12
+      
+      - name: Install Node.js dependencies
+        run: npm ci
 
       - name: Branch Name
         run: |
@@ -35,16 +38,8 @@ jobs:
             echo "::set-output name=file_names::${FILES[*]}"
           fi
 
-      # - name: Find changed files.
-      #   id: changed_files
-      #   run: |
-      #     npm run sample1
-
-      - name: Perform action if files changed.
+      - name: Run lint on changed script files.
         if: steps.changed_files.outputs.files_changed == 'true'
         run: |
+          npm run lint ${{steps.changed_files.outputs.file_names}}
           for i in ${{steps.changed_files.outputs.file_names}}
-          do
-                  echo $i
-          done
-          echo "changed files ${{steps.changed_files.outputs.file_names}}"
