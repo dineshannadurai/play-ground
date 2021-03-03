@@ -47,4 +47,4 @@ jobs:
         do
                 echo $i
         done
-          echo "changed files ${{steps.changed_files.outputs.file_names}}"
+        echo "changed files ${{steps.changed_files.outputs.file_names}}"
