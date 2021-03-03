@@ -110,7 +110,7 @@ view.onFrame = () => {
         view.pause();
     }
     if (hitBoard && hitBoard.point.y > 370) {
-        // score = "LOSER!";
+        // score = "LOSER!"; 
         view.pause();
     }
     const hitPlayer = player.hitTest(ball.position);
