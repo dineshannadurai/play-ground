@@ -26,11 +26,11 @@ jobs:
         run: |
           URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${{ github.event.pull_request.number }}/files"
           FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename')
-          SCRIPT_FILES = $FILES | grep  -E "(.js$|.ts$|.tsx$)"
-          if [[ -z ${SCRIPT_FILES} ]]; then
+          SCRIPTFILES = $FILES | grep  -E "(.js$|.ts$|.tsx$)"
+          if [[ -z ${SCRIPTFILES} ]]; then
             echo $FILES
             echo "::set-output name=files_changed::true"
-            echo "::set-output name=file_names::${SCRIPT_FILES}"
+            echo "::set-output name=file_names::${SCRIPTFILES}"
           else
             echo "no script file changed!!"
             echo "::set-output name=files_changed::false"
