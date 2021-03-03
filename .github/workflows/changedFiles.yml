@@ -30,7 +30,7 @@ jobs:
           URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${{ github.event.pull_request.number }}/files"
           FILES=($(curl -s -X GET -G $URL | jq -r '.[] | .filename' | grep -E '(.js$|.ts$|.tsx$)'))
           echo $FILES
-          if [[ -z ${FILES} ]]; then
+          if [ ${#FILES[@]} -eq 0 ]; then
             echo "no script file changed!!"
             echo "::set-output name=files_changed::false"
           else
