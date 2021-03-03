@@ -20,13 +20,19 @@ jobs:
         run: |
           echo Base branch ${{ github.base_ref }}
           echo Source branch ${{ github.head_ref }}
-
-      - name: Find changed files.
-        id: changed_files
+      
+      - name: list files
         run: |
-          npm run sample1
+          URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${{ github.event.pull_request.number }}/files"
+          FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename')
+          echo $FILES
 
-      - name: Perform action if files changed.
-        if: steps.changed_files.outputs.files_changed == 'true'
-        run: |
-          echo "changed files ${{steps.changed_files.outputs.file_names}}"
+      # - name: Find changed files.
+      #   id: changed_files
+      #   run: |
+      #     npm run sample1
+
+      # - name: Perform action if files changed.
+      #   if: steps.changed_files.outputs.files_changed == 'true'
+      #   run: |
+      #     echo "changed files ${{steps.changed_files.outputs.file_names}}"
