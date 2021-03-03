@@ -1,0 +1,18 @@
+{
+    "env": {
+        "browser": true,
+        "node": true,
+        "es6": true
+    },
+
+    "extends": ["eslint:recommended"],
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "ignorePatterns": ["node_modules/"],
+    "rules": {
+        "semi": ["error", "always"],
+        "quotes": ["error", "double"]
+    }
+}
