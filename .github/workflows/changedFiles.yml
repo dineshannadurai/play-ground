@@ -43,4 +43,8 @@ jobs:
       - name: Perform action if files changed.
         if: steps.changed_files.outputs.files_changed == 'true'
         run: |
+        for i in ${{steps.changed_files.outputs.file_names}}
+        do
+                echo $i
+        done
           echo "changed files ${{steps.changed_files.outputs.file_names}}"
