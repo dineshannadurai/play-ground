@@ -14,7 +14,7 @@ const player = new Path.Rectangle(280, 370, 100, 20);
 player.strokeColor = "black";
 player.fillColor = "blue";
 
-let score = 0;
+// let score = 0;
 
 let hitResult = null;
 
@@ -101,16 +101,16 @@ view.onFrame = () => {
         if (hitBlocks) {
             blocks[a].remove();
             blocks.splice(a, 1);
-            score++;
+            // score++;
             break;
         }
     }
     if (!blocks.length) {
-        score = "WINNER!";
+        // score = "WINNER!";
         view.pause();
     }
     if (hitBoard && hitBoard.point.y > 370) {
-        score = "LOSER!";
+        // score = "LOSER!";
         view.pause();
     }
     const hitPlayer = player.hitTest(ball.position);
