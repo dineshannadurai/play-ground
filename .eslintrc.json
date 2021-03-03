@@ -7,8 +7,11 @@
 
     "extends": ["eslint:recommended"],
     "globals": {
-        "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly"
+        "paper": "readonly",
+        "Path": "readonly",
+        "Point": "readonly",
+        "view": "readonly",
+        "Tool": "readonly"
     },
     "ignorePatterns": ["node_modules/"],
     "rules": {
