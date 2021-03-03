@@ -27,7 +27,7 @@ jobs:
           URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${{ github.event.pull_request.number }}/files"
           FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename')
           echo $FILES
-          if echo $FILES | grep -E "(.js$|.ts$|.tsx$)"; then
+          if echo $FILES | grep -q "(.js$|.ts$|.tsx$)"; then
             echo "::set-output name=files_changed::true"
             echo "::set-output name=file_names::$FILES | grep -E '(.js$|.ts$|.tsx$)'"
           else
