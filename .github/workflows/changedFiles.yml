@@ -28,17 +28,19 @@ jobs:
         id: changed_files
         run: |
           URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${{ github.event.pull_request.number }}/files"
-          FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename' | grep -E '(.js$|.ts$|.tsx$)')
-          echo $FILES
-          if [[ -z ${FILES} ]]; then
-            FILES=(FILES)
-            if [ ${#FILES[@]} -eq 0 ]; then
-              echo "no script file changed!!"
-              echo "::set-output name=files_changed::false"
-            else
-              echo "::set-output name=files_changed::true"
-              echo "::set-output name=file_names::${FILES[*]}"
-            fi
+          FILES=($(curl -s -X GET -G $URL | jq -r '.[] | .filename'))
+          echo "initial array ${FILES}"
+          for index in "${!FILES[@]}" ;
+            do [[ ${FILES[$index]} = !(*.js$|*.jsx$|*.ts$|*.tsx$) ]] && unset -v 'FILES[$index]' ;
+          done
+          FILES=("${FILES[@]}")
+          echo "updated array ${FILES}"
+          if [ ${#FILES[@]} -eq 0 ]; then
+            echo "no script file changed!!"
+            echo "::set-output name=files_changed::false"
+          else
+            echo "::set-output name=files_changed::true"
+            echo "::set-output name=file_names::${FILES[*]}"
           fi
 
       - name: Run lint on changed script files.
