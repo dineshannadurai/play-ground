@@ -11,12 +11,22 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v2
 
-      # - name: Set up Node.js
-      #   uses: actions/setup-node@v1
-      #   with:
-      #     node-version: 12
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
 
-      - name: Repository Name
+      - name: Branch Name
         run: |
           echo Base branch ${{ github.base_ref }}
           echo Source branch ${{ github.head_ref }}
+
+      - name: Find changed files.
+        id: changed_files
+        run: |
+          npm run sample1
+
+      - name: Perform action if files changed.
+        if: steps.changed_files.outputs.files_changed == 'true'
+        run: |
+          echo "changed files ${{steps.changed_files.outputs.file_names}}"
