@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
     "kickstart": "webpack serve",
-    "lint": "eslint ./"
+    "lint": "eslint",
+    "sample1": "bash shell.sh"
   },
   "repository": {
     "type": "git",
