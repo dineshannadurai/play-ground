@@ -33,6 +33,8 @@ jobs:
           FILES=($(curl -s -X GET -G $URL | jq -r '.[] | .filename'))
           echo "initial array ${FILES[*]}"
           git status
+          echo "next command"
+          git branch -r
           CHANGED_FILES=$(git diff --name-only --diff-filter=ACMRTUXB origin/${{ github.base_ref }} origin/${{ github.head_ref }} | grep  -E '(.js$|.ts$|.tsx$)')
           echo "git cmd ${CHANGED_FILES}"
           for index in "${!FILES[@]}" ;
