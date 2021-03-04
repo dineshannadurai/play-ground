@@ -30,7 +30,7 @@ jobs:
           URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${{ github.event.pull_request.number }}/files"
           FILES=($(curl -s -X GET -G $URL | jq -r '.[] | .filename'))
           echo "initial array ${FILES[*]}"
-          $(git remote set-head origin main)
+          git status
           CHANGED_FILES=$(git diff --name-only --diff-filter=ACMRTUXB origin/${{ github.base_ref }} origin/${{ github.head_ref }} | grep  -E '(.js$|.ts$|.tsx$)')
           echo "git cmd ${CHANGED_FILES}"
           for index in "${!FILES[@]}" ;
