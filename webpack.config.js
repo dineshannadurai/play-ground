@@ -9,8 +9,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            title: "Output Management",
-            inject: true,
+            base:"https://dineshannadurai.github.io/play-ground/",
             template: "./index.html",
         }),
     ],

@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
     "kickstart": "webpack serve",
+    "deploy": "gh-pages -d dist",
     "lint": "eslint"
   },
   "repository": {
@@ -19,12 +20,13 @@
   "bugs": {
     "url": "https://github.com/dineshannadurai/play-ground/issues"
   },
-  "homepage": "https://github.com/dineshannadurai/play-ground#readme",
+  "homepage": "https://dineshannadurai.github.io/play-ground/",
   "dependencies": {
     "paper": "^0.12.11"
   },
   "devDependencies": {
     "eslint": "^7.21.0",
+    "gh-pages": "^3.1.0",
     "html-webpack-plugin": "^4.5.1",
     "webpack": "^5.18.0",
     "webpack-cli": "^4.4.0",
