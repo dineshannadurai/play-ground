@@ -1,46 +1,62 @@
-function Draggable(targetElement) {
-    this.element = targetElement;
-    this.held = false;
-    this.diffPt = null;
-}
+export const template = `
+    <button id="dragBtn">Drag me</button>
+`;
 
-Draggable.prototype.onMouseDown = function (event) {
-    this.held = true;
-    this.diffPt = {
-        x: Number(this.element.style.left.replace("px", "")) - event.clientX,
-        y: Number(this.element.style.top.replace("px", "")) - event.clientY,
-    };
-    this.element.style.cursor = "grabbing";
-};
+export function initialize() {
+    document.title = "Drag and Drop";
 
-Draggable.prototype.onMouseMove = function (event) {
-    if (this.held) {
-        this.element.style.left = `${event.clientX + this.diffPt.x}px`;
-        this.element.style.top = `${event.clientY + this.diffPt.y}px`;
+    const link = document.createElement("link");
+    link.type = "text/css";
+    link.rel = "stylesheet";
+    link.href = "./Features/DragAndDrop/index.css";
+    document.head.appendChild(link);
+
+    function Draggable(targetElement) {
+        this.element = targetElement;
+        this.held = false;
+        this.diffPt = null;
     }
-};
 
-Draggable.prototype.onMouseUp = function () {
-    this.held = false;
-    this.element.style.cursor = "grab";
-};
+    Draggable.prototype.onMouseDown = function (event) {
+        this.held = true;
+        this.diffPt = {
+            x:
+                Number(this.element.style.left.replace("px", "")) -
+                event.clientX,
+            y: Number(this.element.style.top.replace("px", "")) - event.clientY,
+        };
+        this.element.style.cursor = "grabbing";
+    };
 
-const makeDraggable = function (target) {
-    const draggbleEl = new Draggable(target);
-    draggbleEl.element.addEventListener(
-        "mousedown",
-        draggbleEl.onMouseDown.bind(draggbleEl)
-    );
-    draggbleEl.element.addEventListener(
-        "mouseup",
-        draggbleEl.onMouseUp.bind(draggbleEl)
-    );
-    document.addEventListener(
-        "mousemove",
-        draggbleEl.onMouseMove.bind(draggbleEl)
-    );
-};
+    Draggable.prototype.onMouseMove = function (event) {
+        if (this.held) {
+            this.element.style.left = `${event.clientX + this.diffPt.x}px`;
+            this.element.style.top = `${event.clientY + this.diffPt.y}px`;
+        }
+    };
 
-const myBtn = document.getElementById("dragBtn");
+    Draggable.prototype.onMouseUp = function () {
+        this.held = false;
+        this.element.style.cursor = "grab";
+    };
 
-makeDraggable(myBtn);
+    const makeDraggable = function (target) {
+        const draggbleEl = new Draggable(target);
+        draggbleEl.element.addEventListener(
+            "mousedown",
+            draggbleEl.onMouseDown.bind(draggbleEl)
+        );
+        draggbleEl.element.addEventListener(
+            "mouseup",
+            draggbleEl.onMouseUp.bind(draggbleEl)
+        );
+        document.addEventListener(
+            "mousemove",
+            draggbleEl.onMouseMove.bind(draggbleEl)
+        );
+    };
+
+    const myBtn = document.getElementById("dragBtn");
+
+    makeDraggable(myBtn);
+}
