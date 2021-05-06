@@ -9,8 +9,9 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            base:"https://dineshannadurai.github.io/play-ground/",
+            base: "https://dineshannadurai.github.io/play-ground/",
             template: "./index.html",
         }),
     ],
+    mode: "production",
 };
