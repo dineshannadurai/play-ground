@@ -21,9 +21,6 @@
     "url": "https://github.com/dineshannadurai/play-ground/issues"
   },
   "homepage": "https://dineshannadurai.github.io/play-ground/",
-  "dependencies": {
-    "paper": "^0.12.11"
-  },
   "devDependencies": {
     "eslint": "^7.21.0",
     "gh-pages": "^3.1.0",
