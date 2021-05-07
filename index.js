@@ -1,17 +1,19 @@
-// Simple client side hash routing
+import * as DeclarativeShadowDOM from "./Features/DeclarativeShadowDOM/index.js";
+import * as BlockBreaker from "./Features/BlockBreaker/index.js";
+import * as DragAndDrop from "./Features/DragAndDrop/index.js";
 
 const routes = [
     {
         route: "declarative-shadow-dom",
-        path: "./Features/DeclarativeShadowDOM/index.js",
+        component: DeclarativeShadowDOM,
     },
     {
         route: "block-breaker",
-        path: "./Features/BlockBreaker/index.js",
+        component: BlockBreaker,
     },
     {
         route: "drag-and-drop",
-        path: "./Features/DragAndDrop/index.js",
+        component: DragAndDrop,
     },
 ];
 
@@ -24,10 +26,10 @@ const homePageTemplate = `
     </ul>
 `;
 
-const getPath = (route) => {
+const getComponent = (route) => {
     const currentRoute = routes.find((item) => item.route === route);
-    const { path: filePath = "" } = currentRoute || {};
-    return filePath;
+    const { component = null } = currentRoute || {};
+    return component;
 };
 
 const initializeRoute = () => {
@@ -39,12 +41,10 @@ const initializeRoute = () => {
     if (!extractedHashRoute) {
         routerOutletElement.innerHTML = homePageTemplate;
     } else {
-        const currentPath = getPath(extractedHashRoute);
-        if (currentPath) {
-            import(currentPath).then((module) => {
-                routerOutletElement.innerHTML = module.template;
-                module.initialize();
-            });
+        const component = getComponent(extractedHashRoute);
+        if (component) {
+            routerOutletElement.innerHTML = component.template;
+            component.initialize();
         }
     }
 };
