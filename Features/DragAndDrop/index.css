@@ -1,10 +1,8 @@
-html,
-body {
-    margin: 0;
-    height: 100%;
+.drag-btn-container {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100%;
 }
 
 #dragBtn {

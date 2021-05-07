@@ -1,15 +1,13 @@
+import "./index.css";
+
 export const template = `
-    <button id="dragBtn">Drag me</button>
+    <div class="drag-btn-container" >
+        <button id="dragBtn">Drag me</button>
+    </div>
 `;
 
 export function initialize() {
     document.title = "Drag and Drop";
-
-    const link = document.createElement("link");
-    link.type = "text/css";
-    link.rel = "stylesheet";
-    link.href = "./Features/DragAndDrop/index.css";
-    document.head.appendChild(link);
 
     function Draggable(targetElement) {
         this.element = targetElement;
