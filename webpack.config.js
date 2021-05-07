@@ -9,16 +9,15 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            base: "https://dineshannadurai.github.io/play-ground/",
             template: "./index.html",
         }),
     ],
-    mode: "production",
+    mode: "development",
     module: {
         rules: [
             {
                 test: /\.css$/,
-                use: ["css-loader"],
+                use: ["style-loader", "css-loader"],
             },
         ],
     },
