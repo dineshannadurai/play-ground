@@ -2,6 +2,7 @@ import * as DeclarativeShadowDOM from "./Features/DeclarativeShadowDOM/index.js"
 import * as BlockBreaker from "./Features/BlockBreaker/index.js";
 import * as DragAndDrop from "./Features/DragAndDrop/index.js";
 import * as ImportMaps from "./Features/ImportMaps/index.js";
+import "./index.css";
 
 const routes = [
     {
