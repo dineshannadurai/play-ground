@@ -2,7 +2,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 
 module.exports = {
-    entry: "./index.js",
+    entry: "./src/index.js",
     devServer: {
         contentBase: "./",
         compress: true,
@@ -10,7 +10,7 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: "./index.html",
+            template: "./public/index.html",
         }),
     ],
     mode: "development",
@@ -24,7 +24,7 @@ module.exports = {
     },
     resolve: {
         modules: [
-            path.resolve(__dirname, "Features/ImportMaps"),
+            path.resolve(__dirname, "src/Features/ImportMaps"),
             "node_modules",
         ],
     },
