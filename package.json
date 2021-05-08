@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
     "kickstart": "webpack serve",
-    "deploy": "gh-pages -d dist",
+    "deploy": "gh-pages -d",
     "lint": "eslint"
   },
   "repository": {
