@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require("path");
 
 module.exports = {
     entry: "./index.js",
@@ -19,6 +20,12 @@ module.exports = {
                 test: /\.css$/,
                 use: ["style-loader", "css-loader"],
             },
+        ],
+    },
+    resolve: {
+        modules: [
+            path.resolve(__dirname, "Features/ImportMaps"),
+            "node_modules",
         ],
     },
 };

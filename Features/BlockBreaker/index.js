@@ -1,4 +1,5 @@
 import paper from "paper";
+// Need to find a way to include css during module is loaded
 import "./index.css";
 
 export const template = `
@@ -10,17 +11,16 @@ export function initialize() {
 
     const canvas = document.getElementById("block-breaker-canvas");
 
-    paper.install(window);
     paper.setup(canvas);
 
-    const gameBoard = new Path.Rectangle(90, 10, 460, 400);
+    const gameBoard = new paper.Path.Rectangle(90, 10, 460, 400);
     gameBoard.strokeColor = "black";
 
-    const ball = new Path.Circle(new Point(330, 362), 6);
+    const ball = new paper.Path.Circle(new paper.Point(330, 362), 6);
     ball.strokeColor = "red";
     ball.fillColor = "red";
 
-    const player = new Path.Rectangle(280, 370, 100, 20);
+    const player = new paper.Path.Rectangle(280, 370, 100, 20);
     player.strokeColor = "black";
     player.fillColor = "blue";
 
@@ -29,25 +29,25 @@ export function initialize() {
     let hitResult = null;
 
     const blocks = [
-        new Path.Rectangle(100, 20, 100, 20),
-        new Path.Rectangle(220, 20, 100, 20),
-        new Path.Rectangle(330, 20, 100, 20),
-        new Path.Rectangle(440, 20, 100, 20),
-        new Path.Rectangle(100, 50, 100, 20),
-        new Path.Rectangle(220, 50, 100, 20),
-        new Path.Rectangle(330, 50, 100, 20),
-        new Path.Rectangle(440, 50, 100, 20),
-        new Path.Rectangle(100, 80, 100, 20),
-        new Path.Rectangle(220, 80, 100, 20),
-        new Path.Rectangle(330, 80, 100, 20),
-        new Path.Rectangle(440, 80, 100, 20),
+        new paper.Path.Rectangle(100, 20, 100, 20),
+        new paper.Path.Rectangle(220, 20, 100, 20),
+        new paper.Path.Rectangle(330, 20, 100, 20),
+        new paper.Path.Rectangle(440, 20, 100, 20),
+        new paper.Path.Rectangle(100, 50, 100, 20),
+        new paper.Path.Rectangle(220, 50, 100, 20),
+        new paper.Path.Rectangle(330, 50, 100, 20),
+        new paper.Path.Rectangle(440, 50, 100, 20),
+        new paper.Path.Rectangle(100, 80, 100, 20),
+        new paper.Path.Rectangle(220, 80, 100, 20),
+        new paper.Path.Rectangle(330, 80, 100, 20),
+        new paper.Path.Rectangle(440, 80, 100, 20),
     ];
 
     for (let i = 0; i < blocks.length; i++) {
         blocks[i].strokeColor = "black";
         blocks[i].fillColor = "purple";
     }
-    const playerTool = new Tool();
+    const playerTool = new paper.Tool();
 
     playerTool.onMouseDown = (event) => {
         hitResult = player.hitTest(event.point, {
@@ -101,7 +101,7 @@ export function initialize() {
         }
     }
 
-    view.onFrame = () => {
+    paper.view.onFrame = () => {
         ball.position.x = ball.position.x + dirX;
         ball.position.y = ball.position.y + dirY;
         const hitBoard = gameBoard.hitTest(ball.position);
@@ -117,11 +117,11 @@ export function initialize() {
         }
         if (!blocks.length) {
             // score = "WINNER!";
-            view.pause();
+            paper.view.pause();
         }
         if (hitBoard && hitBoard.point.y > 370) {
             // score = "LOSER!";
-            view.pause();
+            paper.view.pause();
         }
         const hitPlayer = player.hitTest(ball.position);
         const hitSomething = hitBoard || hitBlocks || hitPlayer;

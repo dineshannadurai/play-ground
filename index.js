@@ -1,6 +1,7 @@
 import * as DeclarativeShadowDOM from "./Features/DeclarativeShadowDOM/index.js";
 import * as BlockBreaker from "./Features/BlockBreaker/index.js";
 import * as DragAndDrop from "./Features/DragAndDrop/index.js";
+import * as ImportMaps from "./Features/ImportMaps/index.js";
 
 const routes = [
     {
@@ -15,6 +16,10 @@ const routes = [
         route: "drag-and-drop",
         component: DragAndDrop,
     },
+    {
+        route: "import-maps",
+        component: ImportMaps,
+    },
 ];
 
 const homePageTemplate = `
@@ -23,6 +28,7 @@ const homePageTemplate = `
         <li><a id="declarative-shadow-dom" href="#declarative-shadow-dom" >Declarative Shadow DOM</a></li>
         <li><a id="block-breaker" href="#block-breaker" >Block Breaker Game</a></li>
         <li><a id="drag-and-drop" href="#drag-and-drop" >Drag and Drop</a></li>
+        <li><a id="import-maps" href="#import-maps" >Import Maps</a></li>
     </ul>
 `;
 

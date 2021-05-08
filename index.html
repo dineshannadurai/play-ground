@@ -4,18 +4,20 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Play Ground</title>
+        <link type="text/css" rel="stylesheet" href="index.css" />
+        <!-- Import maps when using without bundler -->
+        <!-- <script type="importmap">
+            {
+                "imports": {
+                    "utility": "/Features/ImportMaps/utility.js",
+                    "paper": "/paper/paper-core.min.js"
+                }
+            }
+        </script> -->
     </head>
-    <style>
-        html,
-        body {
-            margin: 0;
-            height: 100%;
-        }
-        .root-container {
-            height: 100%;
-        }
-    </style>
     <body>
         <div class="root-container" data-router-elements>Loading...</div>
+        <!-- Uncomment when not bundling  -->
+        <!-- <script type="module" src="index.js"></script> -->
     </body>
 </html>

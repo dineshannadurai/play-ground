@@ -1,3 +1,4 @@
+// Need to find a way to include css during module is loaded
 import "./index.css";
 
 export const template = `
