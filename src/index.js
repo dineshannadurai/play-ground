@@ -40,6 +40,7 @@ const getComponent = (route) => {
 };
 
 const initializeRoute = () => {
+    console.log("initializeRoute");
     const routerOutletElement = document.querySelectorAll(
         "[data-router-elements]"
     )[0];
@@ -57,8 +58,8 @@ const initializeRoute = () => {
 };
 
 window.addEventListener("hashchange", function () {
-    console.log("hashchange event log");
     initializeRoute();
+    console.log("hashchange event log after merge");
 });
 
 initializeRoute();
