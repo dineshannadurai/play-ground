@@ -57,7 +57,7 @@ const initializeRoute = () => {
 };
 
 window.addEventListener("hashchange", function () {
-    console.log("hashchange event");
+    console.log("hashchange event log");
     initializeRoute();
 });
 
