@@ -40,6 +40,7 @@ const getComponent = (route) => {
 };
 
 const initializeRoute = () => {
+    console.log("initializeRoute");
     const routerOutletElement = document.querySelectorAll(
         "[data-router-elements]"
     )[0];
