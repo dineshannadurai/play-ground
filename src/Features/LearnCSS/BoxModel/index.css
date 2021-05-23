@@ -10,15 +10,17 @@ p {
 
 .block {
     margin: 30px;
-    display: inline-block;
-    color: green;
-    background-color: yellow;
+    color: #9c27b0;
+    background-color: #ffeb3b;
     padding: 10px;
-    border: 2px solid #2196f3;
-    outline: 2px solid violet;
+    border: 2px solid #00bcd4;
+    outline: 2px solid #ff9800;
     outline-offset: 2px;
-    box-shadow: 0px 0px 10px 10px red;
+    box-shadow: 0px 0px 10px 10px #aed581;
     width: 100px;
     height: 50px;
     box-sizing: border-box;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
 }
