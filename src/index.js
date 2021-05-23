@@ -2,6 +2,7 @@ import * as DeclarativeShadowDOM from "./Features/DeclarativeShadowDOM/index.js"
 import * as BlockBreaker from "./Features/BlockBreaker/index.js";
 import * as DragAndDrop from "./Features/DragAndDrop/index.js";
 import * as ImportMaps from "./Features/ImportMaps/index.js";
+import * as ContainerQueries from "./Features/ContainerQuery/index.js";
 import "./index.css";
 
 const routes = [
@@ -21,6 +22,10 @@ const routes = [
         route: "import-maps",
         component: ImportMaps,
     },
+    {
+        route: "container-queries",
+        component: ContainerQueries,
+    },
 ];
 
 const homePageTemplate = `
@@ -30,6 +35,7 @@ const homePageTemplate = `
         <li><a id="block-breaker" href="#block-breaker" >Block Breaker Game</a></li>
         <li><a id="drag-and-drop" href="#drag-and-drop" >Drag and Drop</a></li>
         <li><a id="import-maps" href="#import-maps" >Import Maps</a></li>
+        <li><a id="container-queries" href="#container-queries" >Container Queries</a></li>
     </ul>
 `;
 
