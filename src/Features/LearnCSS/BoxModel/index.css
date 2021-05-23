@@ -1,0 +1,24 @@
+p {
+    width: 100px;
+    height: 50px;
+    padding: 20px;
+    border: 1px solid;
+}
+.block-container {
+    margin-top: 50px;
+}
+
+.block {
+    margin: 30px;
+    display: inline-block;
+    color: green;
+    background-color: yellow;
+    padding: 10px;
+    border: 2px solid #2196f3;
+    outline: 2px solid violet;
+    outline-offset: 2px;
+    box-shadow: 0px 0px 10px 10px red;
+    width: 100px;
+    height: 50px;
+    box-sizing: border-box;
+}
