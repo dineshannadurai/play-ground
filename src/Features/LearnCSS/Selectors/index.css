@@ -1,0 +1,37 @@
+/* universal selector */
+/* * {
+    margin: 0;
+} */
+
+/* type selector */
+p {
+    width: auto;
+    height: auto;
+    padding: 0;
+}
+
+/* class selector */
+.middle-para {
+    background-color: tomato;
+}
+
+/* id selector */
+#middle-para-id {
+    width: fit-content;
+}
+
+/* attribute selector */
+[data-para-number = "1"] {
+    background-color: yellowgreen;
+}
+
+/* Pseudo elements */
+.middle-para::before  {
+    content: 'before pseudo element | ';
+    background-color: turquoise;
+}
+
+.middle-para::after  {
+    content: ' | after pseudo element';
+    background-color: teal;
+}
