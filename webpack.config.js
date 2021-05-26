@@ -20,11 +20,16 @@ module.exports = {
                 test: /\.css$/,
                 use: ["style-loader", "css-loader"],
             },
+            {
+                test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                type: "asset/resource",
+            },
         ],
     },
     resolve: {
         modules: [
             path.resolve(__dirname, "src/Features/ImportMaps"),
+            path.resolve(__dirname, "src"),
             "node_modules",
         ],
     },

@@ -1,15 +1,15 @@
+import image from "assets/mdn-images-object-fit.png";
 import "./index.css";
 
 export const template = `
-    <ul class="cq">
-        <li class="cq"><span></span></li>
-        <li class="cq"><span></span></li>
-        <li class="cq"><span></span></li>
-        <li class="cq"><span></span></li>
-        <li class="cq"><span></span></li>
-    </ul>
+<div class="cq-container">
+    <div class="cq">
+        <img src="${image}" width="200px" alt="image" />
+        <div>This is some content to show some demo on the container queries.</div>
+    </div>
+</div>
 `;
 
 export function initialize() {
-    document.title = "Declarative Shadow DOM";
+    document.title = "Container Queries";
 }
