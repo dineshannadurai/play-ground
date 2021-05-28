@@ -8,5 +8,5 @@ export const template = `
 `;
 
 export const initialize = () => {
-    // code to execute for this module
+    document.title = "Box Model : Learn CSS";
 };

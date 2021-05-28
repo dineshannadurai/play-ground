@@ -19,6 +19,7 @@ export const template = `
 `;
 
 export function initialize() {
+    document.title = "Import Maps";
     const firstNumber = document.getElementById("first-number");
     const secondNumber = document.getElementById("second-number");
     const addBtn = document.getElementById("add-numbers");

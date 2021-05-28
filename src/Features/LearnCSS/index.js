@@ -38,6 +38,7 @@ const getComponent = (route) => {
 };
 
 export const initialize = () => {
+    document.title = "Learn CSS";
     const routerOutletElement = document.querySelectorAll(
         "[data-router-elements]"
     )[0];
