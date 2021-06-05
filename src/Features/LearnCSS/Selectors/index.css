@@ -1,0 +1,83 @@
+/* universal selector */
+/* * {
+    margin: 0;
+} */
+
+/* type selector */
+p {
+    width: auto;
+    height: auto;
+    padding: 0;
+}
+
+/* class selector */
+.middle-para {
+    background-color: tomato;
+}
+
+/* id selector */
+#middle-para-id {
+    width: fit-content;
+}
+
+/* attribute selector */
+[data-para-number="1"] {
+    background-color: yellowgreen;
+}
+
+/* Grouping selectors */
+
+span,
+ul {
+    box-shadow: 0px 0px 2px 2px;
+    margin: 1rem;
+}
+
+/* Pseudo elements */
+.middle-para::before {
+    content: "before pseudo element | ";
+    background-color: turquoise;
+}
+
+.middle-para::after {
+    content: " | after pseudo element";
+    background-color: teal;
+}
+
+/* Pseudo classes */
+.middle-para:hover {
+    outline: 4px solid red;
+}
+
+/* Complex selector - combinator */
+
+/* descendant-combinator */
+.top div {
+    padding-left: 20px;
+}
+
+span + span {
+    box-shadow: unset;
+}
+
+ul > li {
+    text-decoration: underline;
+}
+
+p ~ div {
+    outline: 2px solid violet;
+    outline-offset: 4px;
+    margin: 6px;
+    padding: 1px;
+}
+
+/* next-sibling-combinator */
+
+/* Complex selector - compound selector */
+p.middle-para#middle-para-id[data-para-number="2"].extra-class {
+    margin: 15px;
+}
+
+.last-para.last-para {
+    background-color: royalblue;
+}
