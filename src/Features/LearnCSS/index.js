@@ -1,6 +1,7 @@
 import * as BoxModel from "./BoxModel/index.js";
 import * as Selectors from "./Selectors/index.js";
 import * as Cascade from "./Cascade/index.js";
+import * as Specificity from "./Specificity/index.js";
 
 const CURRENT_ROUTE = "learn-css";
 
@@ -20,6 +21,11 @@ const routes = [
         component: Cascade,
         hasChildRoutes: false,
     },
+    {
+        route: "/specificity",
+        component: Specificity,
+        hasChildRoutes: false,
+    },
 ];
 
 export let template = `
@@ -28,6 +34,7 @@ export let template = `
         <li><a id="box-model" href="#${CURRENT_ROUTE}/box-model" >Box Model</a></li>
         <li><a id="selectors" href="#${CURRENT_ROUTE}/selectors" >Selectors</a></li>
         <li><a id="cascade" href="#${CURRENT_ROUTE}/cascade" >Cascade</a></li>
+        <li><a id="specificity" href="#${CURRENT_ROUTE}/specificity" >Specificity</a></li>
     </ul>
 `;
 
