@@ -29,13 +29,15 @@ const routes = [
 ];
 
 export let template = `
-<h1>Learn CSS</h1>
+<div class="learn-css">
+    <h1>Learn CSS</h1>
     <ul>
         <li><a id="box-model" href="#${CURRENT_ROUTE}/box-model" >Box Model</a></li>
         <li><a id="selectors" href="#${CURRENT_ROUTE}/selectors" >Selectors</a></li>
         <li><a id="cascade" href="#${CURRENT_ROUTE}/cascade" >Cascade</a></li>
         <li><a id="specificity" href="#${CURRENT_ROUTE}/specificity" >Specificity</a></li>
     </ul>
+<div>
 `;
 
 const findRoutesHandler = (route) => (item) => {

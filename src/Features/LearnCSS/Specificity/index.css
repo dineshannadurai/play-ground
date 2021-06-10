@@ -1,0 +1,17 @@
+.specificity ul {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.specificity ul li {
+    margin: 10px;
+}
+
+.specificity ul > li {
+    text-decoration: none;
+}
+
+h2 ~ :is(.specificity ul) {
+    padding: 0;
+    box-shadow: none;
+}
