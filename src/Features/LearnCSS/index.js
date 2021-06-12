@@ -47,14 +47,14 @@ export let template = `
 <div>
 `;
 
-const findRoutesHandler = (route) => (item) => {
+const findRoutesHandler = route => item => {
     if (item.hasChildRoutes) {
         return route.includes(item.route);
     }
     return item.route === route;
 };
 
-const getComponent = (route) => {
+const getComponent = route => {
     const currentRoute = routes.find(findRoutesHandler(route));
     const { component = null } = currentRoute || {};
     return component;
@@ -63,7 +63,7 @@ const getComponent = (route) => {
 export const initialize = () => {
     document.title = "Learn CSS";
     const routerOutletElement = document.querySelectorAll(
-        "[data-router-elements]"
+        "[data-router-elements]",
     )[0];
     const { hash = "" } = location;
     const extractedHashRoute = hash.substring(1);

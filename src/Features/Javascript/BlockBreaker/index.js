@@ -49,13 +49,13 @@ export function initialize() {
     }
     const playerTool = new paper.Tool();
 
-    playerTool.onMouseDown = (event) => {
+    playerTool.onMouseDown = event => {
         hitResult = player.hitTest(event.point, {
             fill: true,
         });
     };
 
-    playerTool.onMouseDrag = (event) => {
+    playerTool.onMouseDrag = event => {
         if (
             event.point.x > 140 &&
             event.point.x < 500 &&
