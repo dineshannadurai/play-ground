@@ -3,6 +3,7 @@ import * as BoxModel from "./BoxModel/index.js";
 import * as Selectors from "./Selectors/index.js";
 import * as Cascade from "./Cascade/index.js";
 import * as Specificity from "./Specificity/index.js";
+import "./index.css";
 
 const CURRENT_ROUTE = "html-and-css/learn-css";
 
@@ -37,6 +38,11 @@ const pages = [
 export let template = `
 <div class="learn-css">
     ${getBreadcrumb(pages)}
+    <input class="stop-animation" id="stop-heading-animation" type="checkbox" />
+    <label class="stop-animation" for="stop-heading-animation">
+        stop animation
+    </label>
+    <br />
     <h1>Learn CSS</h1>
     <ul>
         <li><a id="box-model" href="#${CURRENT_ROUTE}/box-model" >Box Model</a></li>
@@ -44,7 +50,7 @@ export let template = `
         <li><a id="cascade" href="#${CURRENT_ROUTE}/cascade" >Cascade</a></li>
         <li><a id="specificity" href="#${CURRENT_ROUTE}/specificity" >Specificity</a></li>
     </ul>
-<div>
+</div>
 `;
 
 const findRoutesHandler = route => item => {
