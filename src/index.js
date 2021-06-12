@@ -1,8 +1,11 @@
-import * as DeclarativeShadowDOM from "./Features/DeclarativeShadowDOM/index.js";
-import * as BlockBreaker from "./Features/BlockBreaker/index.js";
-import * as DragAndDrop from "./Features/DragAndDrop/index.js";
-import * as ImportMaps from "./Features/ImportMaps/index.js";
+import * as DeclarativeShadowDOM from "./Features/Upcoming/DeclarativeShadowDOM/index.js";
+import * as BlockBreaker from "./Features/Javascript/BlockBreaker/index.js";
+import * as DragAndDrop from "./Features/Javascript/DragAndDrop/index.js";
+import * as ImportMaps from "./Features/Upcoming/ImportMaps/index.js";
 import * as LearnCSS from "./Features/LearnCSS/index.js";
+import * as Upcoming from "./Features/Upcoming/index.js";
+import * as Javascript from "./Features/Javascript/index.js";
+import * as HtmlAndCss from "./Features/HtmlAndCss/index.js";
 import "./index.css";
 
 const routes = [
@@ -29,6 +32,21 @@ const routes = [
     {
         route: "learn-css",
         component: LearnCSS,
+        hasChildRoutes: true,
+    },
+    {
+        route: "upcoming",
+        component: Upcoming,
+        hasChildRoutes: true,
+    },
+    {
+        route: "javascript",
+        component: Javascript,
+        hasChildRoutes: true,
+    },
+    {
+        route: "html-and-css",
+        component: HtmlAndCss,
         hasChildRoutes: true,
     },
 ];

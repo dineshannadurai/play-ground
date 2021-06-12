@@ -1,7 +1,15 @@
+import { getBreadcrumb } from "utils";
 import "./index.css";
+
+const pages = [
+    { link: "#", name: "Home" },
+    { link: "#learn-css", name: "Learn CSS" },
+    { link: "#learn-css/cascade", name: "Cascade" },
+];
 
 export const template = `
     <div>
+        ${getBreadcrumb(pages)}
         <h1>Cascading Rules</h1>
         <div>*order of list seen here will be Most specific to least specific</div>
         <ol>

@@ -1,9 +1,10 @@
+import { getBreadcrumb } from "utils";
 import * as BoxModel from "./BoxModel/index.js";
 import * as Selectors from "./Selectors/index.js";
 import * as Cascade from "./Cascade/index.js";
 import * as Specificity from "./Specificity/index.js";
 
-const CURRENT_ROUTE = "learn-css";
+const CURRENT_ROUTE = "html-and-css/learn-css";
 
 const routes = [
     {
@@ -27,9 +28,15 @@ const routes = [
         hasChildRoutes: false,
     },
 ];
+const pages = [
+    { link: "#", name: "Home" },
+    { link: "#html-and-css", name: "HTML & CSS" },
+    { link: "#learn-css", name: "Learn CSS" },
+];
 
 export let template = `
 <div class="learn-css">
+    ${getBreadcrumb(pages)}
     <h1>Learn CSS</h1>
     <ul>
         <li><a id="box-model" href="#${CURRENT_ROUTE}/box-model" >Box Model</a></li>

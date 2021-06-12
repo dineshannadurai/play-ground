@@ -1,7 +1,15 @@
+import { getBreadcrumb } from "utils";
 import "./index.css";
+
+const pages = [
+    { link: "#", name: "Home" },
+    { link: "#learn-css", name: "Learn CSS" },
+    { link: "#learn-css/specificity", name: "Specificity" },
+];
 
 export const template = `
     <div class="specificity">
+        ${getBreadcrumb(pages)}
         <h1>Specificity</h1>
         <ul>
             <li>
