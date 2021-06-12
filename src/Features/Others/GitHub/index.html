@@ -24,7 +24,7 @@
                             owner: "<owner>",
                             repo: "<repo>",
                             branch: branchList[x].name,
-                        }
+                        },
                     );
                 }
             }
@@ -38,7 +38,7 @@
                             repo: "<repo>",
                             per_page: 100,
                             page: pageNumber,
-                        }
+                        },
                     );
 
                     const { data: branchList } = branchListResponse;
@@ -48,16 +48,16 @@
                     } else pageNumber++;
 
                     for await (const details of fetchBranchDetails(
-                        branchList
+                        branchList,
                     )) {
                         totalBranches++;
                         const lastCommitdate = new Date(
-                            `${details.data.commit.commit.author.date}`
+                            `${details.data.commit.commit.author.date}`,
                         );
                         const currentDate = new Date();
                         const diffTime = Math.abs(currentDate - lastCommitdate);
                         const diffDays = Math.round(
-                            diffTime / (1000 * 60 * 60 * 24)
+                            diffTime / (1000 * 60 * 60 * 24),
                         );
                         if (diffDays > 300) {
                             threeHundredDays++;
@@ -79,7 +79,7 @@
                                     owner: "<owner>",
                                     repo: "<repo>",
                                     ref: `heads/<Branch Name>`,
-                                }
+                                },
                             );
                         }
                     }
@@ -89,27 +89,27 @@
                 await fetchBranchList();
                 console.log(
                     `%ctotalBranches - ${totalBranches}`,
-                    "color: black; font-size: 20px"
+                    "color: black; font-size: 20px",
                 );
                 console.log(
                     `%cLast Commit - lessThanNinentyDays - ${lessThanNinentyDays}`,
-                    "color: blue; font-size: 20px"
+                    "color: blue; font-size: 20px",
                 );
                 console.log(
                     `%cLast Commit - ninentyToOneEightyDays - ${ninentyToOneEightyDays}`,
-                    "color: red; font-size: 20px"
+                    "color: red; font-size: 20px",
                 );
                 console.log(
                     `%cLast Commit - moreThanOneEightyDays - ${moreThanOneEightyDays}`,
-                    "color: green; font-size: 20px"
+                    "color: green; font-size: 20px",
                 );
                 console.log(
                     `%cthreeHundredDays - ${threeHundredDays}`,
-                    "color: violet; font-size: 20px"
+                    "color: violet; font-size: 20px",
                 );
                 console.log(
                     `%cprotectedBranches - ${protectedBranches}`,
-                    "color: yellow; font-size: 20px"
+                    "color: yellow; font-size: 20px",
                 );
             })();
         </script>

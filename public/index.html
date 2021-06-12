@@ -9,14 +9,46 @@
         <!-- <script type="importmap">
             {
                 "imports": {
-                    "utility": "./src/Features/ImportMaps/utility.js",
+                    "utility": "./src/Features/Upcoming/ImportMaps/utility.js",
                     "paper": "./src/paper/paper-core.min.js"
                 }
             }
         </script> -->
     </head>
     <body>
-        <div class="root-container" data-router-elements>Loading...</div>
+        <header>
+            <nav aria-label="Main Navigation">
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#upcoming-features">Upcoming</a></li>
+                    <li><a href="#javascript">Javascript</a></li>
+                    <li><a href="#html-and-css">HTML&CSS</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <div class="root-container" data-router-elements>Loading...</div>
+        </main>
+        <footer>
+            <h2 id="references">References</h2>
+            <nav aria-labelledby="references">
+                <ul>
+                    <li>
+                        <a href="https://web.dev/" target="_blank">webdev</a>
+                    </li>
+                    <li>
+                        <a href="https://www.w3.org/" target="_blank">W3C</a>
+                    </li>
+                    <li>
+                        <a
+                            href="https://developer.mozilla.org/en-US/"
+                            target="_blank"
+                            >MDN web docs</a
+                        >
+                    </li>
+                </ul>
+            </nav>
+        </footer>
         <!-- Uncomment when not bundling  -->
         <!-- <script type="module" src="./src/index.js"></script> -->
     </body>

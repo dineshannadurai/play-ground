@@ -1,8 +1,11 @@
-import * as DeclarativeShadowDOM from "./Features/DeclarativeShadowDOM/index.js";
-import * as BlockBreaker from "./Features/BlockBreaker/index.js";
-import * as DragAndDrop from "./Features/DragAndDrop/index.js";
-import * as ImportMaps from "./Features/ImportMaps/index.js";
-import * as LearnCSS from "./Features/LearnCSS/index.js";
+import * as DeclarativeShadowDOM from "./Features/Upcoming/DeclarativeShadowDOM/index.js";
+import * as BlockBreaker from "./Features/Javascript/BlockBreaker/index.js";
+import * as DragAndDrop from "./Features/Javascript/DragAndDrop/index.js";
+import * as ImportMaps from "./Features/Upcoming/ImportMaps/index.js";
+import * as LearnCSS from "./Features/HtmlAndCss/LearnCSS/index.js";
+import * as Upcoming from "./Features/Upcoming/index.js";
+import * as Javascript from "./Features/Javascript/index.js";
+import * as HtmlAndCss from "./Features/HtmlAndCss/index.js";
 import "./index.css";
 
 const routes = [
@@ -31,10 +34,25 @@ const routes = [
         component: LearnCSS,
         hasChildRoutes: true,
     },
+    {
+        route: "upcoming",
+        component: Upcoming,
+        hasChildRoutes: true,
+    },
+    {
+        route: "javascript",
+        component: Javascript,
+        hasChildRoutes: true,
+    },
+    {
+        route: "html-and-css",
+        component: HtmlAndCss,
+        hasChildRoutes: true,
+    },
 ];
 
 const template = `
-<h1>Features</h1>
+    <h1>Features</h1>
     <ul>
         <li><a id="declarative-shadow-dom" href="#declarative-shadow-dom" >Declarative Shadow DOM</a></li>
         <li><a id="block-breaker" href="#block-breaker" >Block Breaker Game</a></li>
@@ -44,14 +62,14 @@ const template = `
     </ul>
 `;
 
-const findRoutesHandler = (route) => (item) => {
+const findRoutesHandler = route => item => {
     if (item.hasChildRoutes) {
         return route.includes(item.route);
     }
     return item.route === route;
 };
 
-const getComponent = (route) => {
+const getComponent = route => {
     const currentRoute = routes.find(findRoutesHandler(route));
     const { component = null } = currentRoute || {};
     return component;
@@ -59,7 +77,7 @@ const getComponent = (route) => {
 
 const initialize = () => {
     const routerOutletElement = document.querySelectorAll(
-        "[data-router-elements]"
+        "[data-router-elements]",
     )[0];
     const { hash = "" } = location;
     const extractedHashRoute = hash.substring(1);

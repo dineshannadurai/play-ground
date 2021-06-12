@@ -43,15 +43,15 @@ export function initialize() {
         const draggbleEl = new Draggable(target);
         draggbleEl.element.addEventListener(
             "mousedown",
-            draggbleEl.onMouseDown.bind(draggbleEl)
+            draggbleEl.onMouseDown.bind(draggbleEl),
         );
         draggbleEl.element.addEventListener(
             "mouseup",
-            draggbleEl.onMouseUp.bind(draggbleEl)
+            draggbleEl.onMouseUp.bind(draggbleEl),
         );
         document.addEventListener(
             "mousemove",
-            draggbleEl.onMouseMove.bind(draggbleEl)
+            draggbleEl.onMouseMove.bind(draggbleEl),
         );
     };
 

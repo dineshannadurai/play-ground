@@ -30,7 +30,7 @@ export function initialize() {
         secondNumber: "",
     };
 
-    const inputChangeHandler = (e) => {
+    const inputChangeHandler = e => {
         const { target } = e;
         const { name, value } = target;
         numbers[`${name}`] = value;

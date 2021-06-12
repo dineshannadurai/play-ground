@@ -1,7 +1,17 @@
+import { getBreadcrumb } from "utils";
 import "./index.css";
+
+const pages = [
+    { link: "#", name: "Home" },
+    { link: "#html-and-css", name: "HTML & CSS" },
+    { link: "#learn-css", name: "Learn CSS" },
+    { link: "#learn-css/selectors", name: "Selectors" },
+];
 
 export const template = `
     <div class="top">
+        ${getBreadcrumb(pages)}
+        <h1>Selectors</h1>
         <p data-para-number="1" >paragraph one</p>
         <p id="middle-para-id" class="middle-para extra-class" data-para-number="2">paragraph two</p>
         <p class="last-para" data-para-number="3">paragraph three</p>
