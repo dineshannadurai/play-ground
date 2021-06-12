@@ -1,5 +1,5 @@
 import { getBreadcrumb } from "utils";
-import * as LearnCSS from "Features/LearnCSS/index.js";
+import * as LearnCSS from "./LearnCSS/index.js";
 
 const CURRENT_ROUTE = "html-and-css";
 

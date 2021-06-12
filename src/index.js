@@ -2,7 +2,7 @@ import * as DeclarativeShadowDOM from "./Features/Upcoming/DeclarativeShadowDOM/
 import * as BlockBreaker from "./Features/Javascript/BlockBreaker/index.js";
 import * as DragAndDrop from "./Features/Javascript/DragAndDrop/index.js";
 import * as ImportMaps from "./Features/Upcoming/ImportMaps/index.js";
-import * as LearnCSS from "./Features/LearnCSS/index.js";
+import * as LearnCSS from "./Features/HtmlAndCss/LearnCSS/index.js";
 import * as Upcoming from "./Features/Upcoming/index.js";
 import * as Javascript from "./Features/Javascript/index.js";
 import * as HtmlAndCss from "./Features/HtmlAndCss/index.js";
