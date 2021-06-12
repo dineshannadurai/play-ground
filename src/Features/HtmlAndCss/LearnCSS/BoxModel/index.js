@@ -3,6 +3,7 @@ import "./index.css";
 
 const pages = [
     { link: "#", name: "Home" },
+    { link: "#html-and-css", name: "HTML & CSS" },
     { link: "#learn-css", name: "Learn CSS" },
     { link: "#learn-css/box-model", name: "Box Model" },
 ];
@@ -15,7 +16,7 @@ export const template = `
     <div class="block-container">
         <div class="block">Some text</div>
     </div>
-<div>
+</div>
 `;
 
 export const initialize = () => {

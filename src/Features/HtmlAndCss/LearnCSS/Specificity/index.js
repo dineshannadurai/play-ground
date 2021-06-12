@@ -3,6 +3,7 @@ import "./index.css";
 
 const pages = [
     { link: "#", name: "Home" },
+    { link: "#html-and-css", name: "HTML & CSS" },
     { link: "#learn-css", name: "Learn CSS" },
     { link: "#learn-css/specificity", name: "Specificity" },
 ];
