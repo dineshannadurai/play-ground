@@ -34,7 +34,7 @@ const routes = [
 ];
 
 const template = `
-<h1>Features</h1>
+    <h1>Features</h1>
     <ul>
         <li><a id="declarative-shadow-dom" href="#declarative-shadow-dom" >Declarative Shadow DOM</a></li>
         <li><a id="block-breaker" href="#block-breaker" >Block Breaker Game</a></li>
