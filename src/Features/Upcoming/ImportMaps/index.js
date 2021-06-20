@@ -1,7 +1,16 @@
 import { add } from "utility";
+import { getBreadcrumb } from "utils";
+
+const pages = [
+    { link: "#", name: "Home" },
+    { link: "#upcoming", name: "Upcoming" },
+    { link: "#import-maps", name: "Import Maps" },
+];
 
 export const template = `
     <div>
+        ${getBreadcrumb(pages)}
+        <h1>Import Maps</h1>
         <fieldset>
             <legend>Enter numbers to add</legend>
             <label>

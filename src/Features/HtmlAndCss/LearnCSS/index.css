@@ -59,6 +59,7 @@
 
 .stop-animation {
     margin-top: 2rem;
+    cursor: pointer;
 }
 
 #stop-heading-animation:checked ~ h1::before,
