@@ -3,7 +3,7 @@ import { getBreadcrumb } from "utils";
 const pages = [
     { link: "#", name: "Home" },
     { link: "#upcoming", name: "Upcoming" },
-    { link: "#declarative-shadow-dom", name: "Declarative Shadow DOM" },
+    { link: "#upcoming/declarative-shadow-dom", name: "Declarative Shadow DOM" },
 ];
 
 export const template = `

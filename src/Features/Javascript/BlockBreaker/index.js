@@ -1,9 +1,20 @@
 import paper from "paper";
+import { getBreadcrumb } from "utils";
 // Need to find a way to include css during module is loaded
 import "./index.css";
 
+const pages = [
+    { link: "#", name: "Home" },
+    { link: "#javascript", name: "Javascript" },
+    { link: "#javascript/block-breaker", name: "Block Breaker" },
+];
+
 export const template = `
-    <canvas id="block-breaker-canvas" resize ></canvas>
+    <div>
+        ${getBreadcrumb(pages)}
+        <h1>Block Breaker</h1>
+        <canvas id="block-breaker-canvas" resize ></canvas>
+    </div>
 `;
 
 export function initialize() {

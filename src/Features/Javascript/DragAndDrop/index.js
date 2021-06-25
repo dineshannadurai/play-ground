@@ -1,9 +1,20 @@
+import { getBreadcrumb } from "utils";
 // Need to find a way to include css during module is loaded
 import "./index.css";
 
+const pages = [
+    { link: "#", name: "Home" },
+    { link: "#javascript", name: "Javascript" },
+    { link: "#javascript/drag-and-drop", name: "Drag and Drop" },
+];
+
 export const template = `
-    <div class="drag-btn-container" >
-        <button id="dragBtn">Drag me</button>
+    <div>
+        ${getBreadcrumb(pages)}
+        <h1>Drag And Drop</h1>
+        <div class="drag-btn-container" >
+            <button id="dragBtn">Drag me</button>
+        </div>
     </div>
 `;
 
