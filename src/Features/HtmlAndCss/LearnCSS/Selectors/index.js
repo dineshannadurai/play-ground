@@ -4,8 +4,8 @@ import "./index.css";
 const pages = [
     { link: "#", name: "Home" },
     { link: "#html-and-css", name: "HTML & CSS" },
-    { link: "#learn-css", name: "Learn CSS" },
-    { link: "#learn-css/selectors", name: "Selectors" },
+    { link: "#html-and-css/learn-css", name: "Learn CSS" },
+    { link: "#html-and-css/learn-css/selectors", name: "Selectors" },
 ];
 
 export const template = `

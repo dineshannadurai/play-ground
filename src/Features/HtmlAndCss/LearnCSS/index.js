@@ -32,7 +32,7 @@ const routes = [
 const pages = [
     { link: "#", name: "Home" },
     { link: "#html-and-css", name: "HTML & CSS" },
-    { link: "#learn-css", name: "Learn CSS" },
+    { link: "#html-and-css/learn-css", name: "Learn CSS" },
 ];
 
 export let template = `
