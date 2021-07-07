@@ -1,33 +1,26 @@
 import { getBreadcrumb } from "utils";
-import * as DeclarativeShadowDOM from "./DeclarativeShadowDOM/index.js";
-import * as ImportMaps from "./ImportMaps/index.js";
+import * as CustomElements from "./CustomElements/index.js";
 
-const CURRENT_ROUTE = "upcoming";
+const CURRENT_ROUTE = "web-components";
 
 const routes = [
     {
-        route: "/declarative-shadow-dom",
-        component: DeclarativeShadowDOM,
-        hasChildRoutes: false,
-    },
-    {
-        route: "/import-maps",
-        component: ImportMaps,
+        route: "/custom-elements",
+        component: CustomElements,
         hasChildRoutes: false,
     },
 ];
 const pages = [
     { link: "#", name: "Home" },
-    { link: "#upcoming", name: "Upcoming" },
+    { link: "#web-components", name: "Web Components" },
 ];
 
 export let template = `
-<div class="upcoming">
+<div class="web-components">
     ${getBreadcrumb(pages)}
-    <h1>Upcoming</h1>
+    <h1>Web Components</h1>
     <ul>
-        <li><a id="declarative-shadow-dom" href="#${CURRENT_ROUTE}/declarative-shadow-dom" >Declarative Shadow DOM</a></li>
-        <li><a id="import-maps" href="#${CURRENT_ROUTE}/import-maps" >Import Maps</a></li>
+        <li><a id="custom-elements" href="#${CURRENT_ROUTE}/custom-elements" >Custom Elements</a></li>
     </ul>
 <div>
 `;
@@ -46,7 +39,7 @@ const getComponent = route => {
 };
 
 export const initialize = () => {
-    document.title = "Upcoming Features";
+    document.title = "Web Components";
     const routerOutletElement = document.querySelectorAll(
         "[data-router-elements]",
     )[0];

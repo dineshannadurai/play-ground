@@ -1,11 +1,13 @@
-import * as DeclarativeShadowDOM from "./Features/Upcoming/DeclarativeShadowDOM/index.js";
-import * as BlockBreaker from "./Features/Javascript/BlockBreaker/index.js";
-import * as DragAndDrop from "./Features/Javascript/DragAndDrop/index.js";
-import * as ImportMaps from "./Features/Upcoming/ImportMaps/index.js";
-import * as LearnCSS from "./Features/HtmlAndCss/LearnCSS/index.js";
-import * as Upcoming from "./Features/Upcoming/index.js";
-import * as Javascript from "./Features/Javascript/index.js";
-import * as HtmlAndCss from "./Features/HtmlAndCss/index.js";
+import "wicg-inert";
+import * as DeclarativeShadowDOM from "./Features/Upcoming/DeclarativeShadowDOM";
+import * as BlockBreaker from "./Features/Javascript/BlockBreaker";
+import * as DragAndDrop from "./Features/Javascript/DragAndDrop";
+import * as ImportMaps from "./Features/Upcoming/ImportMaps";
+import * as LearnCSS from "./Features/HtmlAndCss/LearnCSS";
+import * as Upcoming from "./Features/Upcoming";
+import * as Javascript from "./Features/Javascript";
+import * as HtmlAndCss from "./Features/HtmlAndCss";
+import * as WebComponents from "./Features/WebComponents";
 import "./index.css";
 
 const routes = [
@@ -47,6 +49,11 @@ const routes = [
     {
         route: "html-and-css",
         component: HtmlAndCss,
+        hasChildRoutes: true,
+    },
+    {
+        route: "web-components",
+        component: WebComponents,
         hasChildRoutes: true,
     },
 ];
