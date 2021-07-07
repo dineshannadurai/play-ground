@@ -20,3 +20,9 @@ export const getBreadcrumb = (pages = []) => {
         </ol>
     </nav>`;
 };
+
+export const isMobileOrTablet = () => {
+    const UserAgentParsed = window?.UAParser() || {};
+    const { type = "" } = UserAgentParsed.device || {};
+    return type === "mobile" || type === "tablet";
+};
