@@ -22,7 +22,7 @@ export const getBreadcrumb = (pages = []) => {
 };
 
 export const isMobileOrTablet = () => {
-    const UserAgentParsed = window?.UAParser() || {};
+    const UserAgentParsed = window?.UAParser?.() || {};
     const { type = "" } = UserAgentParsed.device || {};
     return type === "mobile" || type === "tablet";
 };

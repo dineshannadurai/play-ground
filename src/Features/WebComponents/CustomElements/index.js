@@ -1,5 +1,5 @@
 import { getBreadcrumb } from "utils";
-import './customSelect';
+import "./customSelect";
 
 const pages = [
     { link: "#", name: "Home" },
@@ -7,25 +7,82 @@ const pages = [
     { link: "#web-components/custom-elements", name: "Custom Elements" },
 ];
 
+const getRandomOptions = () => {
+    const z = [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+        "g",
+        "h",
+        "i",
+        "j",
+        "k",
+        "l",
+        "m",
+        "n",
+        "o",
+        "p",
+        "q",
+        "r",
+        "s",
+        "t",
+        "u",
+        "v",
+        "w",
+        "x",
+        "y",
+        "z",
+    ];
+    return new Array(50).fill("").map(() => {
+        return Array.from(
+            (Number(Math.random()) * 100000000000000000).toString(),
+        )
+            .map(char => z[+char])
+            .join("");
+    });
+};
+
+const getOptHtml = (custom = false) => {
+    return optArr
+        .map(opt => {
+            return `${custom ? "<custom-option>" : "<option>"}${opt}${
+                custom ? "</custom-option>" : "</option>"
+            }`;
+        })
+        .join("");
+};
+
+const optArr = getRandomOptions();
+const opts = getRandomOptions();
+
 export const template = `
     <div>
         ${getBreadcrumb(pages)}
         <h1>Custom Elements</h1>
         <div>
+            <label for="custom-select">Select one</label>
             <custom-select id="custom-select">
                 <custom-option >select</custom-option>
                 <custom-option >I'm big one here.</custom-option>
                 <custom-option >two</custom-option>
+                ${getOptHtml(true)}
             </custom-select>
-            <custom-select id="custom-select">
+            <label for="custom-select-1">Select two</label>
+            <custom-select id="custom-select-1">
                 <custom-option >select</custom-option>
                 <custom-option >I'm big one here.</custom-option>
                 <custom-option >two</custom-option>
+                ${getOptHtml(true)}
             </custom-select>
+            <label for="normal-select">Select three</label>
             <select id="normal-select">
                 <option>select</option>
                 <option>I'm big one here.</option>
                 <option>two</option>
+                ${getOptHtml()}
             </select>
             <div>
                 <form action="..." method="...">
