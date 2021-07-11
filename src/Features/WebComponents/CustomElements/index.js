@@ -64,7 +64,14 @@ export const template = `
         <h1>Custom Elements</h1>
         <div>
             <label for="custom-select">Select one</label>
-            <custom-select id="custom-select">
+            <template id="custom-select-template">          
+                <style>
+                    .btn-indigo {
+                        @apply py-2 px-4 bg-indigo-500 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75;
+                    }
+                </style>
+            </template>
+            <custom-select id="custom-select" data-template-id="custom-select-template">
                 <custom-option >select</custom-option>
                 <custom-option >I'm big one here.</custom-option>
                 <custom-option >two</custom-option>

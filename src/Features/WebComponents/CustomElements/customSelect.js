@@ -904,7 +904,11 @@ const constructSelectAndOptions = customSelectEl => {
         ? "I'm a device"
         : "I'm not a device";
 
-    shadowRootEl.append(style, deviceDiv, selectContainer);
+    const templateId = customSelectEl.getAttribute("data-template-id");
+    const styleTemplate = document.getElementById(templateId || "");
+    const styleTag = styleTemplate ? styleTemplate.content.cloneNode(true) : "";
+
+    shadowRootEl.append(style, styleTag, deviceDiv, selectContainer);
 
     // Need to Create list box like a dialog
     const listBox = document.createElement("custom-list-box");
