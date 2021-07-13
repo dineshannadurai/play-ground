@@ -77,6 +77,7 @@ class ListBox extends HTMLElement {
         this.attachShadow({ mode: "open" });
 
         // Element functionality written in here
+        constructOptionsModal(this);
     }
 
     connectedCallback() {
@@ -94,7 +95,208 @@ class ListBox extends HTMLElement {
     attributeChangedCallback() {
         console.log("ListBox attributeChangedCallback");
     }
+
+    updateMenuOptions({ customSelectEl, options }) {
+        this.customSelectEl = customSelectEl;
+        this.options = options;
+
+        const newList = getUpdatedMenuOptions(options);
+        const listParent = getOptionsContainingUlTag(this.shadowRoot);
+        listParent.innerHTML = newList;
+        attachListnersForAllMenuOptions(this);
+    }
 }
+
+const getUpdatedMenuOptions = (options = []) => {
+    return options
+        .map(item => {
+            return `
+          <li role="none" class="custom-select-li">
+            <a role="menuitemradio" href="#option" tabindex="0" class="custom-select-anchor" >
+              <span>${item.innerHTML}</span>
+              <span class="custom-option-check"></span>
+            </a>
+          </li>
+        `;
+        })
+        .join("");
+};
+
+function onMenuOptionClick(e) {
+    const customListBoxEl = this;
+    const { shadowRoot: shadowRootEl, customSelectEl } = customListBoxEl;
+    e.preventDefault();
+    const selectedIndex = getSelectedOptionIndex({
+        shadowRootEl,
+        targetEl: e.currentTarget,
+    });
+
+    customSelectEl.selectedIndex = selectedIndex;
+    const selectedOption = getSelectedCustomOption({
+        customSelectEl,
+        selectedIndex,
+    });
+    updateCustomOptionSelected({
+        customSelectEl,
+        selectedIndex,
+    });
+    const { value: selectedValue } = selectedOption;
+    customSelectEl.value = selectedValue;
+    updateSelectValue({
+        shadowRootEl: customSelectEl.shadowRoot,
+        focusSelect: true,
+        value: selectedValue,
+    });
+    setMenuListDialogDisplay({
+        shadowRootEl,
+        value: "none",
+    });
+}
+
+const addListnersForMenuOption = ({ option, customListBoxEl }) => {
+    option.addEventListener("click", onMenuOptionClick.bind(customListBoxEl));
+};
+
+const attachListnersForAllMenuOptions = customListBoxEl => {
+    const { shadowRoot: shadowRootEl } = customListBoxEl;
+    const options = getOptions(shadowRootEl);
+    options.forEach(option => {
+        addListnersForMenuOption({ option, customListBoxEl });
+    });
+};
+
+const constructOptionsModal = customListBoxEl => {
+    const { shadowRoot: shadowRootEl } = customListBoxEl;
+
+    // Create basic CSS to apply to the shadow dom
+    const style = document.createElement("style");
+    style.textContent = getOptionModalBasicStyles();
+
+    const modal = createModal();
+    const menuList = createMenuList();
+    const postNode = modal.querySelector('[data-node="post"]');
+    modal.insertBefore(menuList, postNode);
+
+    shadowRootEl.append(style, modal);
+};
+
+const createMenuList = (options = []) => {
+    const listBox = document.createElement("div");
+    listBox.setAttribute("class", "custom-option-list-box");
+
+    const ulElement = document.createElement("ul");
+    ulElement.setAttribute("role", "menu");
+    ulElement.setAttribute("class", "custom-select-ul");
+
+    options.forEach(item => {
+        const liElement = document.createElement("li");
+        liElement.setAttribute("role", "none");
+        liElement.setAttribute("class", "custom-select-li");
+
+        const anchorElement = document.createElement("a");
+        anchorElement.setAttribute("role", "menuitemradio");
+        anchorElement.setAttribute("href", "#option");
+        anchorElement.setAttribute("tabindex", "0");
+        anchorElement.setAttribute("class", "custom-select-anchor");
+
+        const spanElement = document.createElement("span");
+        spanElement.innerHTML = item.innerHTML;
+
+        const checkSpanElement = document.createElement("span");
+
+        anchorElement.append(spanElement, checkSpanElement);
+
+        liElement.appendChild(anchorElement);
+        ulElement.appendChild(liElement);
+    });
+
+    listBox.appendChild(ulElement);
+
+    return listBox;
+};
+
+const getOptionModalBasicStyles = () => {
+    return `
+        .custom-option-backdrop {
+            background: rgba(0, 0, 0, 0.6);
+            position: fixed;
+            overflow-y: auto;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 9999;
+        }
+        .custom-option-list-box {
+            visibility: visible;
+            position: fixed;
+            width: 80vw;
+            margin: auto;
+            background: white;
+            inset: 0;
+            height: 50vh;
+            overflow-y: scroll;
+            color: white;
+        }
+        .custom-select-ul {
+            margin: 0;
+            padding: 0;
+            background-color: #353639;
+        }
+        .custom-select-li {
+            list-style: none;
+            text-align: left;
+            margin: 0;
+            height: auto;
+            border-bottom: 1px solid #404245;
+        }
+        .custom-select-anchor {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: inherit;
+            text-decoration: none;
+            padding: 0.5rem;
+            word-break: break-all;
+        }
+        .custom-select-anchor:focus {
+            background-color: #434448;
+            outline: none;
+        }
+        .custom-option-check {
+            min-width: 0.5rem;
+            min-height: 0.5rem;
+            border-radius: 100%;
+            position: relative;
+            box-shadow: 0 0 0 0.125rem #7a7b7f;
+            border: 0.125rem solid #353639;
+        }
+        .custom-select-anchor:focus .custom-option-check {
+            border: 0.125rem solid #434448;
+        }
+        .custom-select-anchor[aria-checked='true'] .custom-option-check {
+            background-color: #84acf0;
+            box-shadow: 0 0 0 0.125rem #84acf0;
+        }
+    `;
+};
+
+const createModal = () => {
+    const backDrop = document.createElement("div");
+    backDrop.setAttribute("class", "custom-option-backdrop");
+    backDrop.style.display = "none";
+
+    const preNode = document.createElement("div");
+    preNode.setAttribute("data-node", "pre");
+    preNode.tabIndex = 0;
+
+    const postNode = document.createElement("div");
+    postNode.setAttribute("data-node", "post");
+    postNode.tabIndex = 0;
+
+    backDrop.append(preNode, postNode);
+    return backDrop;
+};
 
 // #END
 
@@ -133,6 +335,9 @@ class CustomSelect extends HTMLElement {
         this.timer = null;
         this.searchText = "";
         this.repeatedCharAtStartSearchText = "";
+
+        this.customListBoxEl = null;
+        this.isDevice = false;
 
         this.observerForOptionsChange = new MutationObserver(
             (mutationsList, observer) => {
@@ -322,7 +527,7 @@ const updateSelectWidth = shadowRootEl => {
 };
 
 const updateOptions = customSelectEl => {
-    const { shadowRoot: shadowRootEl } = customSelectEl;
+    const { shadowRoot: shadowRootEl, customListBoxEl } = customSelectEl;
     const options = getCustomOptions(customSelectEl);
     let selectedIndex = 0;
 
@@ -339,6 +544,8 @@ const updateOptions = customSelectEl => {
     listParent.innerHTML = newList;
     attachListnersForAllOptions(customSelectEl);
     updateSelectWidth(shadowRootEl);
+
+    customListBoxEl.updateMenuOptions({ customSelectEl, options });
 };
 
 const getListContainer = shadowRootEl => {
@@ -359,7 +566,55 @@ const isListContainerOpen = shadowRootEl => {
     return getListContainerVisibility(shadowRootEl) === "visible";
 };
 
-const toggleListOption = customSelectEl => {
+const getMenuListDialog = shadowRootEl => {
+    return shadowRootEl?.querySelector(".custom-option-backdrop");
+};
+
+const getMenuListDialogDisplay = shadowRootEl => {
+    const listContainer = getMenuListDialog(shadowRootEl);
+    return listContainer?.style?.display;
+};
+
+const setMenuListDialogDisplay = ({ shadowRootEl, value }) => {
+    const listContainer = getMenuListDialog(shadowRootEl);
+    listContainer.style.display = value;
+};
+
+const isMenuListDialogOpen = shadowRootEl => {
+    return getMenuListDialogDisplay(shadowRootEl) !== "none";
+};
+
+const focusSelectedMenuOption = (customSelectEl, customListBoxEl) => {
+    const { selectedIndex = 0 } = customSelectEl;
+    const { shadowRoot: shadowRootEl } = customListBoxEl;
+    const options = getOptions(shadowRootEl);
+    const selectedOption = options[selectedIndex];
+    options.forEach(option => {
+        option.ariaChecked = false;
+    });
+    selectedOption.ariaChecked = true;
+    selectedOption.focus();
+};
+
+const toggleDeviceOptions = customSelectEl => {
+    const { customListBoxEl } = customSelectEl;
+    const { shadowRoot: shadowRootEl } = customListBoxEl;
+    const isListOpen = isMenuListDialogOpen(shadowRootEl);
+    if (isListOpen) {
+        setMenuListDialogDisplay({
+            shadowRootEl,
+            value: "none",
+        });
+    } else {
+        setMenuListDialogDisplay({
+            shadowRootEl,
+            value: "block",
+        });
+        focusSelectedMenuOption(customSelectEl, customListBoxEl);
+    }
+};
+
+const toggleDesktopOptions = customSelectEl => {
     const { shadowRoot: shadowRootEl } = customSelectEl;
     const isListOpen = isListContainerOpen(shadowRootEl);
     if (isListOpen) {
@@ -373,6 +628,14 @@ const toggleListOption = customSelectEl => {
             value: "visible",
         });
         focusSelectedOption(customSelectEl);
+    }
+};
+
+const toggleListOption = customSelectEl => {
+    if (customSelectEl.isDevice) {
+        toggleDeviceOptions(customSelectEl);
+    } else {
+        toggleDesktopOptions(customSelectEl);
     }
 };
 
@@ -828,14 +1091,6 @@ const getBasicStyles = () => {
             border: 1px solid black;
             background: white;
             overflow-y: scroll;
-
-            // visibility: visible;
-            // position: fixed;
-            // width: 80vw;
-            // margin: auto;
-            // background: white;
-            // inset: 0;
-            // height: 50vh;
         }
 
         .custom-select-list-box {
@@ -916,7 +1171,7 @@ const constructSelectAndOptions = customSelectEl => {
         "data-custom-list-box-id",
         customSelectEl.deviceListBoxId,
     );
-    // listBox.appendChild(listContainer);
+    customSelectEl.customListBoxEl = listBox;
     document.body.appendChild(listBox);
 };
 
@@ -927,11 +1182,13 @@ const updateOptionDisplay = customSelectEl => {
         shadowRootEl.querySelector(
             ".custom-select-device-text-div",
         ).textContent = "I'm a device";
+        customSelectEl.isDevice = true;
     } else {
         console.log("update option UI else part");
         shadowRootEl.querySelector(
             ".custom-select-device-text-div",
         ).textContent = "I'm not a device";
+        customSelectEl.isDevice = false;
     }
     matchMedia("(max-width: 767px)").addEventListener(
         "change",
