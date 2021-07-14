@@ -4,6 +4,7 @@
 * {
     font-family: monospace;
     font-size: clamp(1rem, 1.25vw, 1.25rem);
+    box-sizing: border-box;
 }
 
 html,
@@ -57,6 +58,12 @@ footer {
 header nav ul {
     display: flex;
     list-style: none;
+}
+
+@media (max-width: 767px) {
+    header nav ul {
+        flex-direction: column;
+    }
 }
 
 header nav ul li {
