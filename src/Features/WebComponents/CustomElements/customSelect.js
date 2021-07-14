@@ -147,6 +147,7 @@ function onMenuOptionClick(e) {
         focusSelect: true,
         value: selectedValue,
     });
+    onDialogHide({ customListBoxEl });
     setMenuListDialogDisplay({
         shadowRootEl,
         value: "none",
@@ -172,7 +173,7 @@ const constructOptionsModal = customListBoxEl => {
     const style = document.createElement("style");
     style.textContent = getOptionModalBasicStyles();
 
-    const modal = createModal();
+    const modal = createModal(customListBoxEl);
     const menuList = createMenuList();
     const postNode = modal.querySelector('[data-node="post"]');
     modal.insertBefore(menuList, postNode);
@@ -281,20 +282,18 @@ const getOptionModalBasicStyles = () => {
     `;
 };
 
-const createModal = () => {
+const createModal = customListBoxEl => {
     const backDrop = document.createElement("div");
     backDrop.setAttribute("class", "custom-option-backdrop");
     backDrop.style.display = "none";
 
-    const preNode = document.createElement("div");
-    preNode.setAttribute("data-node", "pre");
-    preNode.tabIndex = 0;
+    customListBoxEl.preNode = document.createElement("div");
+    customListBoxEl.preNode.setAttribute("data-node", "pre");
 
-    const postNode = document.createElement("div");
-    postNode.setAttribute("data-node", "post");
-    postNode.tabIndex = 0;
+    customListBoxEl.postNode = document.createElement("div");
+    customListBoxEl.postNode.setAttribute("data-node", "post");
 
-    backDrop.append(preNode, postNode);
+    backDrop.append(customListBoxEl.preNode, customListBoxEl.postNode);
     return backDrop;
 };
 
@@ -402,6 +401,11 @@ class CustomSelect extends HTMLElement {
 
     childConnectedCallback(childIndex) {
         if (this.length === childIndex + 1) updateOptions(this);
+    }
+
+    focus() {
+        const select = getSelectButton(this.shadowRoot);
+        select.focus();
     }
 }
 
@@ -596,21 +600,64 @@ const focusSelectedMenuOption = (customSelectEl, customListBoxEl) => {
     selectedOption.focus();
 };
 
+const onDialogShow = ({ customListBoxEl, focusCB }) => {
+    document.documentElement.style.overflow = "hidden";
+
+    customListBoxEl.prevFocusedEl = document.activeElement;
+    customListBoxEl.preNode.tabIndex = 0;
+    customListBoxEl.postNode.tabIndex = 0;
+
+    // set focus on first input
+    if (typeof focusCB === "function") focusCB();
+
+    [].slice.call(document.body.children).forEach(node => {
+        if (node !== customListBoxEl) {
+            node.setAttribute("inert", "true");
+        }
+    });
+};
+
+const onDialogHide = ({ customListBoxEl }) => {
+    const isOverflowHidden =
+        document.documentElement.style.overflow === "hidden";
+    if (isOverflowHidden) document.documentElement.style.overflow = "";
+    customListBoxEl.preNode.removeAttribute("tabindex");
+    customListBoxEl.postNode.removeAttribute("tabindex");
+    [].slice.call(document.body.children).forEach(node => {
+        const el = node;
+        const isHidden = el.hasAttribute("inert");
+        if (isHidden) {
+            el.inert = false;
+        }
+    });
+
+    if (customListBoxEl.prevFocusedEl) {
+        customListBoxEl.prevFocusedEl.focus();
+        customListBoxEl.prevFocusedEl = null;
+    }
+};
+
 const toggleDeviceOptions = customSelectEl => {
     const { customListBoxEl } = customSelectEl;
     const { shadowRoot: shadowRootEl } = customListBoxEl;
     const isListOpen = isMenuListDialogOpen(shadowRootEl);
     if (isListOpen) {
+        onDialogHide({ customListBoxEl });
         setMenuListDialogDisplay({
             shadowRootEl,
             value: "none",
         });
     } else {
-        setMenuListDialogDisplay({
-            shadowRootEl,
-            value: "block",
+        onDialogShow({
+            customListBoxEl,
+            focusCB: () => {
+                setMenuListDialogDisplay({
+                    shadowRootEl,
+                    value: "block",
+                });
+                focusSelectedMenuOption(customSelectEl, customListBoxEl);
+            },
         });
-        focusSelectedMenuOption(customSelectEl, customListBoxEl);
     }
 };
 
