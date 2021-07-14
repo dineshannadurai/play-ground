@@ -184,12 +184,6 @@ const constructOptionsModal = customListBoxEl => {
 const createMenuList = (options = []) => {
     const listBox = document.createElement("div");
     listBox.setAttribute("class", "custom-option-list-box");
-    // listBox.style.width = `${
-    //     window.screen.availWidth - (window.screen.availWidth * 5) / 100
-    // }px`;
-    // listBox.style.height = `${
-    //     window.screen.availHeight - (window.screen.availHeight * 5) / 100
-    // }px`;
 
     const ulElement = document.createElement("ul");
     ulElement.setAttribute("role", "menu");
@@ -237,10 +231,9 @@ const getOptionModalBasicStyles = () => {
         .custom-option-list-box {
             visibility: visible;
             position: fixed;
-            // top: 2.5%;
-            // left: 2.5%;
-            width: 90vw;
+            max-width: 90vw;
             height: 90vh;
+            aspect-ratio: 1;
             inset: 0;
             margin: auto;
             background: white;
