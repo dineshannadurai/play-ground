@@ -222,14 +222,10 @@ const getOptionModalBasicStyles = () => {
             background: rgba(0, 0, 0, 0.6);
             position: fixed;
             overflow-y: auto;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
+            inset: 0;
             z-index: 9999;
         }
         .custom-option-list-box {
-            visibility: visible;
             position: fixed;
             max-width: 90vw;
             height: 90vh;
@@ -602,7 +598,6 @@ const focusSelectedMenuOption = (customSelectEl, customListBoxEl) => {
 };
 
 const onDialogShow = ({ customListBoxEl, focusCB }) => {
-    document.documentElement.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
 
     customListBoxEl.prevFocusedEl = document.activeElement;
@@ -620,10 +615,7 @@ const onDialogShow = ({ customListBoxEl, focusCB }) => {
 };
 
 const onDialogHide = ({ customListBoxEl }) => {
-    const isOverflowHiddenForDocEl =
-        document.documentElement.style.overflow === "hidden";
     const isOverflowHiddenForBody = document.body.style.overflow === "hidden";
-    if (isOverflowHiddenForDocEl) document.documentElement.style.overflow = "";
     if (isOverflowHiddenForBody) document.body.style.overflow = "";
     customListBoxEl.preNode.removeAttribute("tabindex");
     customListBoxEl.postNode.removeAttribute("tabindex");
