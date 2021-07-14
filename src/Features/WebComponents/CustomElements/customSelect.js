@@ -629,9 +629,8 @@ const onDialogShow = ({ customListBoxEl, focusCB }) => {
 const onDialogHide = ({ customListBoxEl }) => {
     const isOverflowHiddenForDocEl =
         document.documentElement.style.overflow === "hidden";
-    const isOverflowHiddenForBody =
-        document.documentElement.style.overflow === "hidden";
-    if (isOverflowHiddenForDocEl) document.body.style.overflow = "";
+    const isOverflowHiddenForBody = document.body.style.overflow === "hidden";
+    if (isOverflowHiddenForDocEl) document.documentElement.style.overflow = "";
     if (isOverflowHiddenForBody) document.body.style.overflow = "";
     customListBoxEl.preNode.removeAttribute("tabindex");
     customListBoxEl.postNode.removeAttribute("tabindex");
