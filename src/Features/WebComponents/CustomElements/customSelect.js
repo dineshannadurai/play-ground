@@ -184,12 +184,12 @@ const constructOptionsModal = customListBoxEl => {
 const createMenuList = (options = []) => {
     const listBox = document.createElement("div");
     listBox.setAttribute("class", "custom-option-list-box");
-    listBox.style.width = `${
-        window.screen.availWidth - (window.screen.availWidth * 5) / 100
-    }px`;
-    listBox.style.height = `${
-        window.screen.availHeight - (window.screen.availHeight * 5) / 100
-    }px`;
+    // listBox.style.width = `${
+    //     window.screen.availWidth - (window.screen.availWidth * 5) / 100
+    // }px`;
+    // listBox.style.height = `${
+    //     window.screen.availHeight - (window.screen.availHeight * 5) / 100
+    // }px`;
 
     const ulElement = document.createElement("ul");
     ulElement.setAttribute("role", "menu");
@@ -237,10 +237,11 @@ const getOptionModalBasicStyles = () => {
         .custom-option-list-box {
             visibility: visible;
             position: fixed;
-            top: 2.5%;
-            left: 2.5%;
-            width: 80vw;
-            height: 50vh;
+            // top: 2.5%;
+            // left: 2.5%;
+            width: 90vw;
+            height: 90vh;
+            inset: 0;
             margin: auto;
             background: white;
             overflow-y: scroll;
@@ -609,6 +610,7 @@ const focusSelectedMenuOption = (customSelectEl, customListBoxEl) => {
 
 const onDialogShow = ({ customListBoxEl, focusCB }) => {
     document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
 
     customListBoxEl.prevFocusedEl = document.activeElement;
     customListBoxEl.preNode.tabIndex = 0;
@@ -625,9 +627,12 @@ const onDialogShow = ({ customListBoxEl, focusCB }) => {
 };
 
 const onDialogHide = ({ customListBoxEl }) => {
-    const isOverflowHidden =
+    const isOverflowHiddenForDocEl =
         document.documentElement.style.overflow === "hidden";
-    if (isOverflowHidden) document.documentElement.style.overflow = "";
+    const isOverflowHiddenForBody =
+        document.documentElement.style.overflow === "hidden";
+    if (isOverflowHiddenForDocEl) document.body.style.overflow = "";
+    if (isOverflowHiddenForBody) document.body.style.overflow = "";
     customListBoxEl.preNode.removeAttribute("tabindex");
     customListBoxEl.postNode.removeAttribute("tabindex");
     [].slice.call(document.body.children).forEach(node => {
@@ -1231,17 +1236,31 @@ const constructSelectAndOptions = customSelectEl => {
 
 const updateOptionDisplay = customSelectEl => {
     const { shadowRoot: shadowRootEl } = customSelectEl;
+    const innerWidth = window.innerWidth;
+    const outerWidth = window.outerWidth;
+    const innerHeight = window.innerHeight;
+    const outerHeight = window.outerHeight;
+    const availHeight = window.screen.availHeight;
+    const availWidth = window.screen.availWidth;
+
+    const sizes = `innerWidth - ${innerWidth}, 
+                    outerWidth - ${outerWidth},
+                    innerHeight - ${innerHeight},
+                    outerHeight - ${outerHeight},
+                    availHeight - ${availHeight},
+                    availWidth - ${availWidth}`;
+
     if (isMobileOrTablet() || window.matchMedia("(max-width: 767px)").matches) {
         console.log("update option UI");
         shadowRootEl.querySelector(
             ".custom-select-device-text-div",
-        ).textContent = "I'm a device";
+        ).textContent = sizes;
         customSelectEl.isDevice = true;
     } else {
         console.log("update option UI else part");
         shadowRootEl.querySelector(
             ".custom-select-device-text-div",
-        ).textContent = "I'm not a device";
+        ).textContent = sizes;
         customSelectEl.isDevice = false;
     }
     matchMedia("(max-width: 767px)").addEventListener(
