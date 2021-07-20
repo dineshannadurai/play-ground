@@ -71,21 +71,21 @@ export const template = `
                     }
                 </style>
             </template>
-            <custom-select id="custom-select" data-template-id="custom-select-template">
+            <custom-select required id="custom-select" data-template-id="custom-select-template">
                 <custom-option >select</custom-option>
                 <custom-option >I'm big one here.</custom-option>
                 <custom-option >two</custom-option>
                 ${getOptHtml(true)}
             </custom-select>
             <label for="custom-select-1">Select two</label>
-            <custom-select id="custom-select-1">
+            <custom-select disabled id="custom-select-1">
                 <custom-option >select</custom-option>
                 <custom-option >I'm big one here.</custom-option>
                 <custom-option >two</custom-option>
                 ${getOptHtml(true)}
             </custom-select>
             <label for="normal-select">Select three</label>
-            <select id="normal-select">
+            <select required id="normal-select">
                 <option>select</option>
                 <option>I'm big one here.</option>
                 <option>two</option>

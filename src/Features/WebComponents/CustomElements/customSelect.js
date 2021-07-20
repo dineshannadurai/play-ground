@@ -301,7 +301,7 @@ const createModal = customListBoxEl => {
  */
 
 class CustomSelect extends HTMLElement {
-    static deviceListBoxId = 0;
+    static listBoxId = 0;
     static get observedAttributes() {
         return ["required", "disabled"];
     }
@@ -315,8 +315,8 @@ class CustomSelect extends HTMLElement {
 
         // Element functionality written in here
 
-        CustomSelect.deviceListBoxId += 1;
-        this.deviceListBoxId = CustomSelect.deviceListBoxId;
+        CustomSelect.listBoxId += 1;
+        this.listBoxId = CustomSelect.listBoxId;
 
         // other member variables
         this.disabled = false;
@@ -334,6 +334,8 @@ class CustomSelect extends HTMLElement {
 
         this.customListBoxEl = null;
         this.isDevice = false;
+
+        updateCustomSelectElProperties(this);
 
         this.observerForOptionsChange = new MutationObserver(
             (mutationsList, observer) => {
@@ -422,9 +424,21 @@ customElements.define("custom-list-box", ListBox);
  * FUNCTIONS USED TO CONSTRUCT CUSTOM SELECT ELEMENT
  */
 
+const updateCustomSelectElProperties = customSelectEl => {
+    for (let name of customSelectEl.getAttributeNames()) {
+        const value = customSelectEl.getAttribute(name);
+        updateCustomElAttribute(customSelectEl, name, value);
+    }
+};
+
 const updateCustomElAttribute = (customEl, name, newValue) => {
     if (BOOLEAN_ATTRIBUTE.includes(name)) {
         customEl[`${name}`] = customEl.hasAttribute(name);
+    } else if (name.includes("aria-")) {
+        const propValue = name.replace(/-\w/, (match, offset, string) => {
+            return string[offset + 1].toUpperCase();
+        });
+        customEl[`${propValue}`] = newValue;
     } else {
         customEl[`${name}`] = newValue;
     }
@@ -493,12 +507,18 @@ const attachListnersForAllOptions = customSelectEl => {
     });
 };
 
-const getUpdatedOptions = (options = []) => {
+const getUpdatedOptions = ({ options = [], selectedIndex, listBoxId }) => {
     return options
-        .map(item => {
+        .map((item, index) => {
             return `
           <li class="custom-select-li">
-            <a role="option" href="#option" tabindex="0" class="custom-select-anchor" >
+            <a role="option" href="#option" id="listbox-${listBoxId}-option-${
+                index + 1
+            }" tabindex="0" aria-selected="${
+                index === selectedIndex
+            }" aria-setsize="${options.length}" aria-posinset="${
+                index + 1
+            }" class="custom-select-anchor" >
               <span>${item.innerHTML}</span>
             </a>
           </li>
@@ -528,7 +548,11 @@ const updateSelectWidth = shadowRootEl => {
 };
 
 const updateOptions = customSelectEl => {
-    const { shadowRoot: shadowRootEl, customListBoxEl } = customSelectEl;
+    const {
+        shadowRoot: shadowRootEl,
+        customListBoxEl,
+        listBoxId,
+    } = customSelectEl;
     const options = getCustomOptions(customSelectEl);
     let selectedIndex = 0;
 
@@ -540,13 +564,17 @@ const updateOptions = customSelectEl => {
     customSelectEl.value = options[selectedIndex].value;
     updateSelectValue({ shadowRootEl, value: customSelectEl.value });
 
-    const newList = getUpdatedOptions(options);
+    const newList = getUpdatedOptions({ options, selectedIndex, listBoxId });
     const listParent = getOptionsContainingUlTag(shadowRootEl);
     listParent.innerHTML = newList;
     attachListnersForAllOptions(customSelectEl);
     updateSelectWidth(shadowRootEl);
 
     customListBoxEl.updateMenuOptions({ customSelectEl, options });
+};
+
+const getListBox = shadowRootEl => {
+    return shadowRootEl?.querySelector(".custom-select-list-box");
 };
 
 const getListContainer = shadowRootEl => {
@@ -561,6 +589,26 @@ const getListContainerVisibility = shadowRootEl => {
 const setListContainerVisibility = ({ shadowRootEl, value }) => {
     const listContainer = getListContainer(shadowRootEl);
     listContainer.style.visibility = value;
+};
+
+const setAttrAndUpdateProp = ({ customSelectEl, target, name, value }) => {
+    target.setAttribute(name, value);
+    updateCustomElAttribute(customSelectEl, name, value);
+};
+
+const updateOptionsListVisibility = ({ customSelectEl, value }) => {
+    const { shadowRoot: shadowRootEl } = customSelectEl;
+    setListContainerVisibility({
+        shadowRootEl,
+        value,
+    });
+    const selectButton = getSelectButton(shadowRootEl);
+    setAttrAndUpdateProp({
+        customSelectEl,
+        target: selectButton,
+        name: "aria-expanded",
+        value: value === "visible",
+    });
 };
 
 const isListContainerOpen = shadowRootEl => {
@@ -661,13 +709,13 @@ const toggleDesktopOptions = customSelectEl => {
     const { shadowRoot: shadowRootEl } = customSelectEl;
     const isListOpen = isListContainerOpen(shadowRootEl);
     if (isListOpen) {
-        setListContainerVisibility({
-            shadowRootEl,
+        updateOptionsListVisibility({
+            customSelectEl,
             value: "hidden",
         });
     } else {
-        setListContainerVisibility({
-            shadowRootEl,
+        updateOptionsListVisibility({
+            customSelectEl,
             value: "visible",
         });
         focusSelectedOption(customSelectEl);
@@ -702,14 +750,31 @@ const getIndexOnArrowKey = ({ index, length, code }) => {
 
 const focusSelectedOption = customSelectEl => {
     const { selectedIndex = 0 } = customSelectEl;
-    focusOption({ customSelectEl, index: selectedIndex });
+    focusOption({ customSelectEl, index: selectedIndex, updateAria: true });
 };
 
-const focusOption = ({ customSelectEl, index }) => {
+const updateOptionAria = ({ customSelectEl, selectedIndex }) => {
+    const { shadowRoot: shadowRootEl } = customSelectEl;
+    const options = getOptions(shadowRootEl);
+    options.forEach((option, index) => {
+        option.setAttribute("aria-selected", index === selectedIndex);
+    });
+    const listBox = getListBox(shadowRootEl);
+    const selectedOption = options[selectedIndex];
+    const id = selectedOption.getAttribute("id");
+    listBox.setAttribute("aria-activedescendant", id);
+};
+
+const focusOption = ({ customSelectEl, index, updateAria = false }) => {
     const { shadowRoot: shadowRootEl } = customSelectEl;
     const options = getOptions(shadowRootEl);
     const selectedOption = options[index];
-    selectedOption.focus();
+    if (selectedOption) {
+        selectedOption.focus();
+        if (updateAria) {
+            updateOptionAria({ customSelectEl, selectedIndex: index });
+        }
+    }
 };
 
 const updateCustomOptionSelected = ({ customSelectEl, selectedIndex }) => {
@@ -788,8 +853,8 @@ function onSelectAndOptionBlur(e) {
     const selectButton = getSelectButton(shadowRootEl);
     const isOptionMenu = optionList.some(item => item === nextFocusedEl);
     if (isOption && !isOptionMenu) {
-        setListContainerVisibility({
-            shadowRootEl,
+        updateOptionsListVisibility({
+            customSelectEl,
             value: "hidden",
         });
         // enableFocus(refs);
@@ -816,6 +881,7 @@ const getSelectedCustomOption = ({ customSelectEl, selectedIndex }) => {
 const updateSelectValue = ({ shadowRootEl, focusSelect = false, value }) => {
     const selectButton = getSelectButton(shadowRootEl);
     selectButton.children[0].textContent = value;
+    selectButton.setAttribute("title", value);
     if (focusSelect) selectButton.focus();
 };
 
@@ -847,8 +913,8 @@ function onOptionClick(e) {
         focusSelect: true,
         value: selectedValue,
     });
-    setListContainerVisibility({
-        shadowRootEl,
+    updateOptionsListVisibility({
+        customSelectEl,
         value: "hidden",
     });
     // enableFocus(refs);
@@ -861,7 +927,22 @@ const focusNextOption = ({ index, length, code, customSelectEl }) => {
         code,
     });
     if (newIndex !== -1) {
-        focusOption({ customSelectEl, index: newIndex });
+        focusOption({ customSelectEl, index: newIndex, updateAria: true });
+        const selectedOption = getSelectedCustomOption({
+            customSelectEl,
+            selectedIndex: newIndex,
+        });
+        updateCustomOptionSelected({
+            customSelectEl,
+            selectedIndex: newIndex,
+        });
+        const { value: selectedValue } = selectedOption;
+        customSelectEl.value = selectedValue;
+        customSelectEl.selectedIndex = newIndex;
+        updateSelectValue({
+            shadowRootEl: customSelectEl.shadowRoot,
+            value: selectedValue,
+        });
     }
 };
 
@@ -892,8 +973,8 @@ function onOptionKeyDown(e) {
 
         case ESCAPE_KEY_CODE:
         case TAB_KEY_CODE:
-            setListContainerVisibility({
-                shadowRootEl,
+            updateOptionsListVisibility({
+                customSelectEl,
                 value: "hidden",
             });
             // enableFocus(refs);
@@ -926,9 +1007,43 @@ function onOptionMouseEnter(e) {
 }
 
 const createSelectButton = customSelectEl => {
+    const {
+        listBoxId = 0,
+        required = false,
+        disabled = false,
+        ariaInvalid = false,
+    } = customSelectEl;
     const selectButton = document.createElement("button");
     selectButton.setAttribute("role", "combobox");
-    selectButton.setAttribute("aria-haspopup", "listbox");
+    setAttrAndUpdateProp({
+        customSelectEl,
+        target: selectButton,
+        name: "aria-haspopup",
+        value: "listbox",
+    });
+    setAttrAndUpdateProp({
+        customSelectEl,
+        target: selectButton,
+        name: "aria-controls",
+        value: `listbox-${listBoxId}`,
+    });
+    setAttrAndUpdateProp({
+        customSelectEl,
+        target: selectButton,
+        name: "aria-owns",
+        value: `listbox-${listBoxId}`,
+    });
+    setAttrAndUpdateProp({
+        customSelectEl,
+        target: selectButton,
+        name: "aria-expanded",
+        value: "false",
+    });
+    selectButton.setAttribute("aria-required", required);
+    selectButton.setAttribute("aria-disabled", disabled);
+    if (disabled) selectButton.setAttribute("disabled", "");
+    selectButton.setAttribute("aria-invalid", ariaInvalid);
+
     selectButton.setAttribute("class", "custom-select-button dynamic-width");
     addListnersForSelect({ selectButton, customSelectEl });
 
@@ -1021,9 +1136,32 @@ const searchOption = ({ customSelectEl, searchKey }) => {
             item => item.value === nextItem.value,
         );
         if (isOpen) {
-            focusOption({ customSelectEl, index: originalIndex });
+            focusOption({
+                customSelectEl,
+                index: originalIndex,
+                updateAria: true,
+            });
+            const selectedOption = getSelectedCustomOption({
+                customSelectEl,
+                selectedIndex: originalIndex,
+            });
+            updateCustomOptionSelected({
+                customSelectEl,
+                selectedIndex: originalIndex,
+            });
+            const { value: selectedValue } = selectedOption;
+            customSelectEl.value = selectedValue;
+            customSelectEl.selectedIndex = originalIndex;
+            updateSelectValue({
+                shadowRootEl,
+                value: selectedValue,
+            });
         } else if (originalIndex !== selectedIndex) {
             customSelectEl.selectedIndex = originalIndex;
+            updateCustomOptionSelected({
+                customSelectEl,
+                selectedIndex: originalIndex,
+            });
             customSelectEl.value = customOptions[originalIndex].value;
             updateSelectValue({ shadowRootEl, value: customSelectEl.value });
         }
@@ -1031,12 +1169,14 @@ const searchOption = ({ customSelectEl, searchKey }) => {
 };
 
 const createListContainer = (customSelectEl, options = []) => {
+    const { listBoxId = 0 } = customSelectEl;
     const listContainer = document.createElement("div");
     listContainer.setAttribute("class", "custom-select-list-container");
     listContainer.style.visibility = "hidden";
 
     const listBox = document.createElement("div");
     listBox.setAttribute("role", "listbox");
+    listBox.setAttribute("id", `listbox-${listBoxId}`);
     listBox.setAttribute("tabindex", "-1");
     listBox.setAttribute("class", "custom-select-list-box");
 
@@ -1182,7 +1322,7 @@ const getBasicStyles = () => {
 };
 
 const constructSelectAndOptions = customSelectEl => {
-    const { shadowRoot: shadowRootEl } = customSelectEl;
+    const { shadowRoot: shadowRootEl, listBoxId } = customSelectEl;
     const selectContainer = document.createElement("div");
     selectContainer.setAttribute("class", "custom-select-container");
 
@@ -1210,10 +1350,7 @@ const constructSelectAndOptions = customSelectEl => {
 
     // Need to Create list box like a dialog
     const listBox = document.createElement("custom-list-box");
-    listBox.setAttribute(
-        "data-custom-list-box-id",
-        customSelectEl.deviceListBoxId,
-    );
+    listBox.setAttribute("data-custom-list-box-id", listBoxId);
     customSelectEl.customListBoxEl = listBox;
     document.body.appendChild(listBox);
 };
