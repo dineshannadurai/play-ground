@@ -26,3 +26,15 @@ export const isMobileOrTablet = () => {
     const { type = "" } = UserAgentParsed.device || {};
     return type === "mobile" || type === "tablet";
 };
+
+export const focusToNonFocusableEl = el => {
+    if (el) {
+        el.setAttribute('tabindex', '-1');
+        const listner = () => {
+            el.removeAttribute('tabindex');
+            el.removeEventListener('blur', listner);
+        };
+        el.addEventListener('blur', listner);
+        el.focus();
+    }
+};
