@@ -100,19 +100,26 @@ class ListBox extends HTMLElement {
         this.customSelectEl = customSelectEl;
         this.options = options;
 
-        const newList = getUpdatedMenuOptions(options);
+        const newList = getUpdatedMenuOptions({ options });
         const listParent = getOptionsContainingUlTag(this.shadowRoot);
         listParent.innerHTML = newList;
         attachListnersForAllMenuOptions(this);
     }
 }
 
-const getUpdatedMenuOptions = (options = []) => {
+const getUpdatedMenuOptions = ({ options = [] }) => {
     return options
-        .map(item => {
+        .map((item, index) => {
             return `
-          <li role="none" class="custom-select-li">
-            <a role="menuitemradio" href="#option" tabindex="0" class="custom-select-anchor" >
+          <li class="custom-select-li">
+            <a 
+                role="option" 
+                href="#option" 
+                tabindex="0"
+                class="custom-select-anchor" 
+                aria-setsize="${options.length}" 
+                aria-posinset="${index + 1}"
+            >
               <span>${item.innerHTML}</span>
               <span class="custom-option-check"></span>
             </a>
@@ -147,11 +154,7 @@ function onMenuOptionClick(e) {
         focusSelect: true,
         value: selectedValue,
     });
-    onDialogHide({ customListBoxEl });
-    setMenuListDialogDisplay({
-        shadowRootEl,
-        value: "none",
-    });
+    toggleDeviceOptions(customSelectEl);
 }
 
 const addListnersForMenuOption = ({ option, customListBoxEl }) => {
@@ -186,7 +189,7 @@ const createMenuList = (options = []) => {
     listBox.setAttribute("class", "custom-option-list-box");
 
     const ulElement = document.createElement("ul");
-    ulElement.setAttribute("role", "menu");
+    ulElement.setAttribute("role", "listbox");
     ulElement.setAttribute("class", "custom-select-ul");
 
     options.forEach(item => {
@@ -226,20 +229,26 @@ const getOptionModalBasicStyles = () => {
             z-index: 9999;
         }
         .custom-option-list-box {
+            font-size: clamp(1.5rem, 2.5vw, 2.5rem);
             position: fixed;
             max-width: 90vw;
-            height: 90vh;
-            aspect-ratio: 1;
+            max-height: 90vh;
+            height: fit-content;
             inset: 0;
             margin: auto;
-            background: white;
-            overflow-y: scroll;
+            overflow-y: auto;
             color: white;
+            border-radius: 0.5rem;
+            background-color: #353639;
         }
+        @media (orientation: landscape) {
+            .custom-option-list-box {
+                max-width: 60vw;
+            }
+          }
         .custom-select-ul {
             margin: 0;
             padding: 0;
-            background-color: #353639;
         }
         .custom-select-li {
             list-style: none;
@@ -248,18 +257,29 @@ const getOptionModalBasicStyles = () => {
             height: auto;
             border-bottom: 1px solid #404245;
         }
+        .custom-select-li:last-child {
+            border-bottom: none;
+        }
         .custom-select-anchor {
             display: flex;
             justify-content: space-between;
             align-items: center;
             color: inherit;
             text-decoration: none;
-            padding: 0.5rem;
+            padding: 1rem;
             word-break: break-all;
         }
         .custom-select-anchor:focus {
             background-color: #434448;
             outline: none;
+        }
+        li:first-child a:focus {
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
+        }
+        li:last-child a:focus {
+            border-bottom-right-radius: 0.5rem;
+            border-bottom-left-radius: 0.5rem;
         }
         .custom-option-check {
             min-width: 0.5rem;
@@ -364,9 +384,8 @@ class CustomSelect extends HTMLElement {
                 });
             },
         );
-
-        constructSelectAndOptions(this);
         updateOptionDisplay(this);
+        constructSelectAndOptions(this);
     }
 
     connectedCallback() {
@@ -682,14 +701,22 @@ const onDialogHide = ({ customListBoxEl }) => {
 };
 
 const toggleDeviceOptions = customSelectEl => {
-    const { customListBoxEl } = customSelectEl;
+    const { customListBoxEl, shadowRoot: customSelectShadowRootEl } =
+        customSelectEl;
     const { shadowRoot: shadowRootEl } = customListBoxEl;
     const isListOpen = isMenuListDialogOpen(shadowRootEl);
+    const selectButton = getSelectButton(customSelectShadowRootEl);
     if (isListOpen) {
         onDialogHide({ customListBoxEl });
         setMenuListDialogDisplay({
             shadowRootEl,
             value: "none",
+        });
+        setAttrAndUpdateProp({
+            customSelectEl,
+            target: selectButton,
+            name: "aria-expanded",
+            value: false,
         });
     } else {
         onDialogShow({
@@ -701,6 +728,12 @@ const toggleDeviceOptions = customSelectEl => {
                 });
                 focusSelectedMenuOption(customSelectEl, customListBoxEl);
             },
+        });
+        setAttrAndUpdateProp({
+            customSelectEl,
+            target: selectButton,
+            name: "aria-expanded",
+            value: true,
         });
     }
 };
@@ -1012,26 +1045,29 @@ const createSelectButton = customSelectEl => {
         required = false,
         disabled = false,
         ariaInvalid = false,
+        isDevice,
     } = customSelectEl;
     const selectButton = document.createElement("button");
-    selectButton.setAttribute("role", "combobox");
+    if (!isDevice) {
+        selectButton.setAttribute("role", "combobox");
+        setAttrAndUpdateProp({
+            customSelectEl,
+            target: selectButton,
+            name: "aria-controls",
+            value: `listbox-${listBoxId}`,
+        });
+        setAttrAndUpdateProp({
+            customSelectEl,
+            target: selectButton,
+            name: "aria-owns",
+            value: `listbox-${listBoxId}`,
+        });
+    }
     setAttrAndUpdateProp({
         customSelectEl,
         target: selectButton,
         name: "aria-haspopup",
-        value: "listbox",
-    });
-    setAttrAndUpdateProp({
-        customSelectEl,
-        target: selectButton,
-        name: "aria-controls",
-        value: `listbox-${listBoxId}`,
-    });
-    setAttrAndUpdateProp({
-        customSelectEl,
-        target: selectButton,
-        name: "aria-owns",
-        value: `listbox-${listBoxId}`,
+        value: isDevice ? "menu" : "listbox",
     });
     setAttrAndUpdateProp({
         customSelectEl,
@@ -1267,19 +1303,20 @@ const getBasicStyles = () => {
 
             position: absolute;
             width: fit-content;
-            height: fit-content;
+            height: auto;
+            max-height: 15rem;
             margin: 0;
 
             border-radius: 0px;
             border: 1px solid black;
             background: white;
-            overflow-y: scroll;
+            overflow-y: auto;
         }
 
         .custom-select-list-box {
             display: flex;
             flex-direction: column;
-            max-height: 15rem;
+            height: fit-content;
         }
 
         .custom-select-ul {
@@ -1335,18 +1372,11 @@ const constructSelectAndOptions = customSelectEl => {
     const style = document.createElement("style");
     style.textContent = getBasicStyles();
 
-    // Will be removed - Inserted to check responsive
-    const deviceDiv = document.createElement("div");
-    deviceDiv.setAttribute("class", "custom-select-device-text-div");
-    deviceDiv.textContent = isMobileOrTablet()
-        ? "I'm a device"
-        : "I'm not a device";
-
     const templateId = customSelectEl.getAttribute("data-template-id");
     const styleTemplate = document.getElementById(templateId || "");
     const styleTag = styleTemplate ? styleTemplate.content.cloneNode(true) : "";
 
-    shadowRootEl.append(style, styleTag, deviceDiv, selectContainer);
+    shadowRootEl.append(style, styleTag, selectContainer);
 
     // Need to Create list box like a dialog
     const listBox = document.createElement("custom-list-box");
@@ -1356,32 +1386,11 @@ const constructSelectAndOptions = customSelectEl => {
 };
 
 const updateOptionDisplay = customSelectEl => {
-    const { shadowRoot: shadowRootEl } = customSelectEl;
-    const innerWidth = window.innerWidth;
-    const outerWidth = window.outerWidth;
-    const innerHeight = window.innerHeight;
-    const outerHeight = window.outerHeight;
-    const availHeight = window.screen.availHeight;
-    const availWidth = window.screen.availWidth;
-
-    const sizes = `innerWidth - ${innerWidth}, 
-                    outerWidth - ${outerWidth},
-                    innerHeight - ${innerHeight},
-                    outerHeight - ${outerHeight},
-                    availHeight - ${availHeight},
-                    availWidth - ${availWidth}`;
-
     if (isMobileOrTablet() || window.matchMedia("(max-width: 767px)").matches) {
         console.log("update option UI");
-        shadowRootEl.querySelector(
-            ".custom-select-device-text-div",
-        ).textContent = sizes;
         customSelectEl.isDevice = true;
     } else {
         console.log("update option UI else part");
-        shadowRootEl.querySelector(
-            ".custom-select-device-text-div",
-        ).textContent = sizes;
         customSelectEl.isDevice = false;
     }
     matchMedia("(max-width: 767px)").addEventListener(

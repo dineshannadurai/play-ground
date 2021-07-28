@@ -1,5 +1,6 @@
 import { getBreadcrumb } from "utils";
 import "./customSelect";
+import "./index.css";
 
 const pages = [
     { link: "#", name: "Home" },
@@ -59,11 +60,10 @@ const optArr = getRandomOptions();
 const opts = getRandomOptions();
 
 export const template = `
-    <div>
+    <div class="custom-elements">
         ${getBreadcrumb(pages)}
         <h1>Custom Elements</h1>
         <div>
-            <label for="custom-select">Select one</label>
             <template id="custom-select-template">          
                 <style>
                     .btn-indigo {
@@ -71,26 +71,51 @@ export const template = `
                     }
                 </style>
             </template>
+            <h2>Custom Select</h2>
+            <label for="custom-select">Select - More options</label>
             <custom-select required id="custom-select" data-template-id="custom-select-template">
                 <custom-option >select</custom-option>
                 <custom-option >I'm big one here.</custom-option>
                 <custom-option >two</custom-option>
                 ${getOptHtml(true)}
             </custom-select>
-            <label for="custom-select-1">Select two</label>
+            <label for="custom-select-1">Select - Disabled</label>
             <custom-select disabled id="custom-select-1">
+                <custom-option >select</custom-option>
+                ${getOptHtml(true)}
+            </custom-select>
+            <label for="custom-select-2">Select - Less options</label>
+            <custom-select id="custom-select-2">
                 <custom-option >select</custom-option>
                 <custom-option >I'm big one here.</custom-option>
                 <custom-option >two</custom-option>
-                ${getOptHtml(true)}
             </custom-select>
-            <label for="normal-select">Select three</label>
-            <select required id="normal-select">
-                <option>select</option>
-                <option>I'm big one here.</option>
-                <option>two</option>
-                ${getOptHtml()}
-            </select>
+            <h2>HTML Native Select</h2>
+            <div>
+                <label for="normal-select-1">Select - More options</label>
+                <select required id="normal-select-1">
+                    <option>select</option>
+                    <option>I'm big one here.</option>
+                    <option>two</option>
+                    ${getOptHtml()}
+                </select>
+            </div>
+            <div>
+                <label for="normal-select-2">Select - Disabled</label>
+                <select disabled id="normal-select-2">
+                    <option>select</option>
+                    <option>I'm big one here.</option>
+                    <option>two</option>
+                </select>
+            </div>
+            <div>
+                <label for="normal-select-3">Select - Less options</label>
+                <select id="normal-select-3">
+                    <option>select</option>
+                    <option>I'm big one here.</option>
+                    <option>two</option>
+                </select>
+            </div>
             <div>
                 <form action="..." method="...">
                     <label>
