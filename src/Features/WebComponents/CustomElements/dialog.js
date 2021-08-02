@@ -18,14 +18,47 @@ const getFocusableElements = element => {
     ].filter(el => isFocusable(el));
 };
 
-const focusFirstFocusableEl = element => {
+export const hideFocus = ({ excludeArr = [], element = document }) => {
+    const allFocusableElements = getFocusableElements(element);
+    allFocusableElements.forEach(item => {
+        const currTabIndex = item.getAttribute("tabindex");
+        const isTabIndexChanged = item.getAttribute(
+            `data-${TAB_INDEX_CHANGED}`,
+        );
+        if (isTabIndexChanged !== "true" && !excludeArr.includes(item)) {
+            if (currTabIndex)
+                item.setAttribute(`data-${PREV_TAB_INDEX}`, currTabIndex);
+            item.setAttribute("tabindex", "-1");
+            item.setAttribute(`data-${TAB_INDEX_CHANGED}`, "true");
+        }
+    });
+};
+
+export const enableFocus = ({ excludeArr }) => {
+    const focusChangedElements = document.querySelectorAll(
+        `[data-${TAB_INDEX_CHANGED}="true"]`,
+    );
+    focusChangedElements.forEach(item => {
+        if (!excludeArr.includes(item)) {
+            const prevTabIndex = item.getAttribute(`data-${PREV_TAB_INDEX}`);
+            item.setAttribute(`data-${TAB_INDEX_CHANGED}`, "false");
+            if (prevTabIndex) {
+                item.setAttribute("tabindex", prevTabIndex);
+            } else {
+                item.removeAttribute("tabindex");
+            }
+        }
+    });
+};
+
+export const focusFirstFocusableEl = element => {
     const focusableElements = getFocusableElements(element);
     if (focusableElements.length) {
         attemptFocus(focusableElements[0]);
     }
 };
 
-const focusLastFocusableEl = element => {
+export const focusLastFocusableEl = element => {
     const focusableElements = getFocusableElements(element);
     if (focusableElements.length) {
         const lastElIndex = focusableElements.length - 1;

@@ -1,5 +1,6 @@
 import { isMobileOrTablet } from "utils";
 import arrow from "assets/selectArrow.svg";
+import { focusFirstFocusableEl, focusLastFocusableEl } from "./dialog.js";
 
 // KEYBOARD KEYS TO INTERACT
 
@@ -133,6 +134,7 @@ function onMenuOptionClick(e) {
     const customListBoxEl = this;
     const { shadowRoot: shadowRootEl, customSelectEl } = customListBoxEl;
     e.preventDefault();
+    e.stopPropagation();
     const selectedIndex = getSelectedOptionIndex({
         shadowRootEl,
         targetEl: e.currentTarget,
@@ -191,6 +193,7 @@ const createMenuList = (options = []) => {
     const ulElement = document.createElement("ul");
     ulElement.setAttribute("role", "listbox");
     ulElement.setAttribute("class", "custom-select-ul");
+    ulElement.setAttribute("tabindex", "-1");
 
     options.forEach(item => {
         const liElement = document.createElement("li");
@@ -304,11 +307,24 @@ const createModal = customListBoxEl => {
     backDrop.setAttribute("class", "custom-option-backdrop");
     backDrop.style.display = "none";
 
+    backDrop.addEventListener("click", () => {
+        const { customSelectEl } = customListBoxEl;
+        toggleDeviceOptions(customSelectEl);
+    });
+
     customListBoxEl.preNode = document.createElement("div");
     customListBoxEl.preNode.setAttribute("data-node", "pre");
 
+    customListBoxEl.preNode.addEventListener("focus", () => {
+        focusLastFocusableEl(customListBoxEl.preNode.nextSibling);
+    });
+
     customListBoxEl.postNode = document.createElement("div");
     customListBoxEl.postNode.setAttribute("data-node", "post");
+
+    customListBoxEl.postNode.addEventListener("focus", () => {
+        focusFirstFocusableEl(customListBoxEl.postNode.previousSibling);
+    });
 
     backDrop.append(customListBoxEl.preNode, customListBoxEl.postNode);
     return backDrop;
@@ -658,9 +674,10 @@ const focusSelectedMenuOption = (customSelectEl, customListBoxEl) => {
     const options = getOptions(shadowRootEl);
     const selectedOption = options[selectedIndex];
     options.forEach(option => {
-        option.ariaChecked = false;
+        option.setAttribute("aria-checked", "false");
+        option.setAttribute("aria-selected", "false");
     });
-    selectedOption.ariaChecked = true;
+    selectedOption.setAttribute("aria-checked", "true");
     selectedOption.focus();
 };
 

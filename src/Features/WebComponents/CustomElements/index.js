@@ -102,7 +102,7 @@ export const template = `
             </div>
             <div>
                 <label for="normal-select-2">Select - Disabled</label>
-                <select disabled id="normal-select-2">
+                <select disabled aria-disabled="true" id="normal-select-2">
                     <option>select</option>
                     <option>I'm big one here.</option>
                     <option>two</option>
