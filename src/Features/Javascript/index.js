@@ -1,6 +1,7 @@
 import { getBreadcrumb } from "utils";
-import * as BlockBreaker from "./BlockBreaker/index.js";
-import * as DragAndDrop from "./DragAndDrop/index.js";
+import * as BlockBreaker from "./BlockBreaker";
+import * as DragAndDrop from "./DragAndDrop";
+import * as WhackAMole from "./WhackAMole";
 
 const CURRENT_ROUTE = "javascript";
 
@@ -13,6 +14,11 @@ const routes = [
     {
         route: "/drag-and-drop",
         component: DragAndDrop,
+        hasChildRoutes: false,
+    },
+    {
+        route: "/whack-a-mole",
+        component: WhackAMole,
         hasChildRoutes: false,
     },
 ];
@@ -28,6 +34,7 @@ export let template = `
     <ul>
         <li><a id="block-breaker" href="#${CURRENT_ROUTE}/block-breaker" >Block Breaker Game</a></li>
         <li><a id="drag-and-drop" href="#${CURRENT_ROUTE}/drag-and-drop" >Drag and Drop</a></li>
+        <li><a id="whack-a-mole" href="#${CURRENT_ROUTE}/whack-a-mole" >Whack A Mole</a></li>
     </ul>
 <div>
 `;
