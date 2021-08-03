@@ -1,0 +1,18 @@
+.whack-a-mole .field {
+    display: flex;
+    width: 300px;
+    flex-wrap: wrap;
+}
+
+.whack-a-mole .hole button {
+    height: 100px;
+    width: 100px;
+}
+
+.whack-a-mole .mole {
+    background-color: red;
+}
+
+.whack-a-mole .whacked {
+    background-color: green;
+}
