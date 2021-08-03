@@ -111,7 +111,7 @@ const KEY_MAPPINGS = {
 };
 
 function docKeyDownListner(e) {
-    onMoleClick(this.holes[KEY_MAPPINGS[e.key]]);
+    if (KEY_MAPPINGS[e.key]) onMoleClick(this.holes[KEY_MAPPINGS[e.key]]);
 }
 
 function moleClickListner(e) {
