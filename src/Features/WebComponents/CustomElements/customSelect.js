@@ -12,6 +12,10 @@ const RIGHT_ARROW_KEY_CODE = "ArrowRight";
 const DOWN_ARROW_KEY_CODE = "ArrowDown";
 const ESCAPE_KEY_CODE = "Escape";
 const TAB_KEY_CODE = "Tab";
+const HOME_KEY_CODE = "Home";
+const END_KEY_CODE = "End";
+const PAGE_UP_KEY_CODE = "PageUp";
+const PAGE_DOWN_KEY_CODE = "PageDown";
 
 const BOOLEAN_ATTRIBUTE = ["disabled", "selected", "required"];
 
@@ -782,18 +786,24 @@ const toggleListOption = customSelectEl => {
 
 const getIndexOnArrowKey = ({ index, length, code }) => {
     let nextIndex = -1;
+    const firstIndex = 0;
+    const lastIndex = length - 1;
     if (code === DOWN_ARROW_KEY_CODE || code === RIGHT_ARROW_KEY_CODE) {
-        if (index < length - 1) {
+        if (index < lastIndex) {
             nextIndex = index + 1;
         } else {
-            nextIndex = 0;
+            nextIndex = firstIndex;
         }
     } else if (code === UP_ARROW_KEY_CODE || code === LEFT_ARROW_KEY_CODE) {
-        if (index > 0) {
+        if (index > firstIndex) {
             nextIndex = index - 1;
         } else {
-            nextIndex = length - 1;
+            nextIndex = lastIndex;
         }
+    } else if (code === HOME_KEY_CODE || code === PAGE_UP_KEY_CODE) {
+        nextIndex = firstIndex;
+    } else if (code === END_KEY_CODE || code === PAGE_DOWN_KEY_CODE) {
+        nextIndex = lastIndex;
     }
     return nextIndex;
 };
@@ -861,7 +871,11 @@ function onSelectKeyDown(e) {
         e.key === UP_ARROW_KEY_CODE ||
         e.key === DOWN_ARROW_KEY_CODE ||
         e.key === RIGHT_ARROW_KEY_CODE ||
-        e.key === LEFT_ARROW_KEY_CODE;
+        e.key === LEFT_ARROW_KEY_CODE ||
+        e.key === HOME_KEY_CODE ||
+        e.key === END_KEY_CODE ||
+        e.key === PAGE_UP_KEY_CODE ||
+        e.key === PAGE_DOWN_KEY_CODE;
     if (openDropDown) {
         e.preventDefault();
         toggleListOption(customSelectEl);
@@ -1013,6 +1027,10 @@ function onOptionKeyDown(e) {
         case LEFT_ARROW_KEY_CODE:
         case UP_ARROW_KEY_CODE:
         case RIGHT_ARROW_KEY_CODE:
+        case HOME_KEY_CODE:
+        case END_KEY_CODE:
+        case PAGE_UP_KEY_CODE:
+        case PAGE_DOWN_KEY_CODE:
             focusNextOption({
                 index,
                 length,
