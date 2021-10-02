@@ -3,6 +3,8 @@ import * as BoxModel from "./BoxModel/index.js";
 import * as Selectors from "./Selectors/index.js";
 import * as Cascade from "./Cascade/index.js";
 import * as Specificity from "./Specificity/index.js";
+import * as Inheritance from "./Inheritance/index.js";
+import * as Color from "./Color/index.js";
 import "./index.css";
 
 const CURRENT_ROUTE = "html-and-css/learn-css";
@@ -28,6 +30,16 @@ const routes = [
         component: Specificity,
         hasChildRoutes: false,
     },
+    {
+        route: "/inheritance",
+        component: Inheritance,
+        hasChildRoutes: false,
+    },
+    {
+        route: "/color",
+        component: Color,
+        hasChildRoutes: false,
+    },
 ];
 const pages = [
     { link: "#", name: "Home" },
@@ -49,6 +61,8 @@ export let template = `
         <li><a id="selectors" href="#${CURRENT_ROUTE}/selectors" >Selectors</a></li>
         <li><a id="cascade" href="#${CURRENT_ROUTE}/cascade" >Cascade</a></li>
         <li><a id="specificity" href="#${CURRENT_ROUTE}/specificity" >Specificity</a></li>
+        <li><a id="inheritance" href="#${CURRENT_ROUTE}/inheritance" >Inheritance</a></li>
+        <li><a id="color" href="#${CURRENT_ROUTE}/color" >Color</a></li>
     </ul>
 </div>
 `;

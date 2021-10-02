@@ -1,0 +1,29 @@
+.inherit-parent {
+    background-color: yellow;
+    color: green;
+    outline: 2px solid red;
+    padding: 1rem;
+    list-style: circle;
+}
+
+.inherit-parent div {
+    margin: 10px;
+}
+
+.inherit-parent ul {
+    margin: unset;
+}
+
+.inherit-child-1 {
+    color: initial;
+}
+
+.inherit-child-2 {
+    background-color: blue;
+    color: black;
+    outline: inherit;
+}
+
+.inherit-child-2 ul {
+    list-style: inherit;
+}

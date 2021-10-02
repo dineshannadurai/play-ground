@@ -1,0 +1,27 @@
+.color-parent ul {
+    box-shadow: unset;
+}
+
+.color-parent p {
+    border: unset;
+}
+
+.color-parent li {
+    text-decoration: unset;
+}
+
+.color-parent ul > li > ul > li > ul > li {
+    color: hsl(122deg 40% 49%);
+}
+
+.color-parent ul > li > ul > li {
+    color: rgb(85 85 221);
+}
+
+.color-parent ul > li {
+    color: #d10;
+}
+
+.color-parent h2 ~ ul > li {
+    color: rgba(220, 7, 79, 90%);
+}
