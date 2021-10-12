@@ -27,8 +27,8 @@ export let template = `
     ${getBreadcrumb(pages)}
     <h1>HTML</h1>
     <ul>
-        <li><a id="content-model" href="#${CURRENT_ROUTE}/content-model" >Content Model</a></li>
         <li><a id="element-kinds" href="#${CURRENT_ROUTE}/element-kinds" >Kinds of Elements</a></li>
+        <li><a id="content-model" href="#${CURRENT_ROUTE}/content-model" >Content Model</a></li>
     </ul>
 </div>
 `;

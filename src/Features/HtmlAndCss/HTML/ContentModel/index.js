@@ -13,7 +13,7 @@ export const template = `
     ${getBreadcrumb(pages)}
     <h1>Content Model</h1>
     <ul>
-        <h2>Basic Content categories</h2>
+        <h2>Element Content categories</h2>
         <li>
             Metadata content
             <ul>
@@ -57,26 +57,32 @@ export const template = `
                 <li>a (if the href attribute is present), button, input(if the type attribute is not in the Hidden state), label, select, textarea, ...etc.</li>
             </ul>
         </li>
-    </ul>
-    <ul>
-        <h2>Others models</h2>
         <li>
-            The "nothing" content model
+            Sectioning roots
+            <ul>
+                <li>blockquote, body, details, dialog, fieldset, figure, td</li>
+            </ul>
+        </li>
+        <li>
+            Form-associated elements
+            <ul>
+                <li>listed, labelable, submittable, resettable, Autocapitalize-inheriting elements</li>
+            </ul>
         </li>
         <li>
             Palpable content
-        </li>
-        <li>
-            Form-associated content
-            <ul>
-                <li>listed, labelable, submittable, resettable</li>
-            </ul>
         </li>
         <li>
             Script-supporting elements
             <ul>
                 <li>script, template</li>
             </ul>
+        </li>
+    </ul>
+    <ul>
+        <h2>Others models</h2>
+        <li>
+            The "nothing" content model
         </li>
         <li>
             Transparent content models
