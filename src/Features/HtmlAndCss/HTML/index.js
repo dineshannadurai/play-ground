@@ -1,35 +1,36 @@
 import { getBreadcrumb } from "utils";
-import * as LearnCSS from "./LearnCSS/index.js";
-import * as Html from "./HTML/index.js";
+import * as ContentModel from "./ContentModel/index.js";
+import * as ElementKinds from "./ElementKinds/index.js";
 
-const CURRENT_ROUTE = "html-and-css";
+const CURRENT_ROUTE = "html-and-css/html";
 
 const routes = [
     {
-        route: "learn-css",
-        component: LearnCSS,
-        hasChildRoutes: true,
+        route: "/content-model",
+        component: ContentModel,
+        hasChildRoutes: false,
     },
     {
-        route: "html",
-        component: Html,
-        hasChildRoutes: true,
+        route: "/element-kinds",
+        component: ElementKinds,
+        hasChildRoutes: false,
     },
 ];
 const pages = [
     { link: "#", name: "Home" },
     { link: "#html-and-css", name: "HTML & CSS" },
+    { link: "#html-and-css/html", name: "HTML" },
 ];
 
 export let template = `
-<div class="html-and-css">
+<div class="html">
     ${getBreadcrumb(pages)}
-    <h1>HTML & CSS</h1>
+    <h1>HTML</h1>
     <ul>
-        <li><a id="learn-css" href="#${CURRENT_ROUTE}/learn-css" >Learn CSS</a></li>
-        <li><a id="html" href="#${CURRENT_ROUTE}/html" >HTML Topics</a></li>
+        <li><a id="content-model" href="#${CURRENT_ROUTE}/content-model" >Content Model</a></li>
+        <li><a id="element-kinds" href="#${CURRENT_ROUTE}/element-kinds" >Kinds of Elements</a></li>
     </ul>
-<div>
+</div>
 `;
 
 const findRoutesHandler = route => item => {
@@ -46,7 +47,7 @@ const getComponent = route => {
 };
 
 export const initialize = () => {
-    document.title = "HTML & CSS";
+    document.title = "HTML Topics";
     const routerOutletElement = document.querySelectorAll(
         "[data-router-elements]",
     )[0];
