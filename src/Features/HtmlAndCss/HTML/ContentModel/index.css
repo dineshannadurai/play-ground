@@ -1,0 +1,8 @@
+.contain-sub-list ul:not(ul ul) {
+    padding-block-end: 1rem;
+    overflow: auto;
+}
+
+.contain-sub-list li:last-child > ul {
+    margin-block-end: 0;
+}
