@@ -1,0 +1,130 @@
+.sizing-units-parent * {
+    all: revert;
+}
+
+.sizing-units-parent q {
+    padding-inline-start: 2ch;
+    font-size: smaller;
+}
+
+.sizing-units-ex .color-block {
+    background-color: red;
+    height: 20px;
+    margin-block-end: 5px;
+}
+.sizing-units-ex .color-block::after {
+    position: relative;
+}
+
+.sizing-units-ex .color-block.px {
+    width: 10px;
+}
+.sizing-units-ex .color-block.px::after {
+    content: "px";
+    left: 10px;
+    position: relative;
+}
+
+.sizing-units-ex .color-block.cm {
+    width: 10cm;
+}
+.sizing-units-ex .color-block.cm::after {
+    content: "cm";
+    left: 10cm;
+}
+
+.sizing-units-ex .color-block.mm {
+    width: 10mm;
+}
+.sizing-units-ex .color-block.mm::after {
+    content: "mm";
+    left: 10mm;
+}
+
+.sizing-units-ex .color-block.in {
+    width: 10in;
+}
+.sizing-units-ex .color-block.in::after {
+    content: "in";
+    left: 10in;
+}
+
+.sizing-units-ex .color-block.pc {
+    width: 10pc;
+}
+.sizing-units-ex .color-block.pc::after {
+    content: "pc";
+    left: 10pc;
+}
+
+.sizing-units-ex .color-block.pt {
+    width: 10pt;
+}
+.sizing-units-ex .color-block.pt::after {
+    content: "pt";
+    left: 10pt;
+}
+
+.sizing-units-ex .color-block.vh {
+    width: 10vh;
+}
+.sizing-units-ex .color-block.vh::after {
+    content: "vh";
+    left: 10vh;
+}
+
+.sizing-units-ex .color-block.vw {
+    width: 10vw;
+}
+.sizing-units-ex .color-block.vw::after {
+    content: "vw";
+    left: 10vw;
+}
+
+.sizing-units-ex .color-block.vmin {
+    width: 10vmin;
+}
+.sizing-units-ex .color-block.vmin::after {
+    content: "vmin";
+    left: 10vmin;
+}
+
+.sizing-units-ex .color-block.vmax {
+    width: 10vmax;
+}
+.sizing-units-ex .color-block.vmax::after {
+    content: "vmax";
+    left: 10vmax;
+}
+
+.sizing-units-ex .color-block.ch {
+    width: 10ch;
+}
+.sizing-units-ex .color-block.ch::after {
+    content: "ch";
+    left: 10ch;
+}
+
+.sizing-units-ex .color-block.em {
+    width: 10em;
+}
+.sizing-units-ex .color-block.em::after {
+    content: "em";
+    left: 10em;
+}
+
+.sizing-units-ex .color-block.ex {
+    width: 10ex;
+}
+.sizing-units-ex .color-block.ex::after {
+    content: "ex";
+    left: 10ex;
+}
+
+.sizing-units-ex .color-block.rem {
+    width: 10rem;
+}
+.sizing-units-ex .color-block.rem::after {
+    content: "rem";
+    left: 10rem;
+}

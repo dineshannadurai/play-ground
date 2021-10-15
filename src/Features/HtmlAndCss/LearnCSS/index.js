@@ -5,6 +5,7 @@ import * as Cascade from "./Cascade/index.js";
 import * as Specificity from "./Specificity/index.js";
 import * as Inheritance from "./Inheritance/index.js";
 import * as Color from "./Color/index.js";
+import * as SizingUnits from "./SizingUnits/index.js";
 import "./index.css";
 
 const CURRENT_ROUTE = "html-and-css/learn-css";
@@ -40,6 +41,11 @@ const routes = [
         component: Color,
         hasChildRoutes: false,
     },
+    {
+        route: "/sizing-units",
+        component: SizingUnits,
+        hasChildRoutes: false,
+    },
 ];
 const pages = [
     { link: "#", name: "Home" },
@@ -63,6 +69,7 @@ export let template = `
         <li><a id="specificity" href="#${CURRENT_ROUTE}/specificity" >Specificity</a></li>
         <li><a id="inheritance" href="#${CURRENT_ROUTE}/inheritance" >Inheritance</a></li>
         <li><a id="color" href="#${CURRENT_ROUTE}/color" >Color</a></li>
+        <li><a id="color" href="#${CURRENT_ROUTE}/sizing-units" >Sizing Units</a></li>
     </ul>
 </div>
 `;
