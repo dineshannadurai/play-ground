@@ -1,0 +1,31 @@
+name: start deployment
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Check out Git repository
+    - uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '16'
+        check-latest: true
+
+    - name: Install Node.js dependencies
+      run: npm ci
+
+    - name: Build
+      run: npm run build
+    
+    - name: Deploy
+      run: npm run deploy
